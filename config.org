@@ -1,0 +1,1098 @@
+#+STARTUP: fold
+
+* Startup & Low Level
+** Native Compilation
+   This section exists because I am making use of an emacs version with
+   native compilation. With this I mean that lisp is being compiled to
+   a kind of native code with some extra information. The compiler can
+   give some good amount of warnings that are a little bit disruptive
+   and not very useful, normally... Because of this, I'm silencing them.
+   
+   #+begin_src emacs-lisp
+     (setq comp-async-report-warnings-errors nil)
+   #+end_src
+
+* Main Visual Changes
+** Themes
+
+   #+begin_src emacs-lisp
+     (use-package doom-themes
+       :ensure t
+       :config
+       (load-theme 'doom-one t)
+       (doom-themes-org-config))
+   #+end_src
+   
+** Removing Bars, Bells, etc
+
+   Removing Things that are not needed
+   
+   #+BEGIN_SRC emacs-lisp
+     (defun my/disable-scroll-bars (frame)
+       (modify-frame-parameters frame
+				'((vertical-scroll-bars . nil)
+				  (horizontal-scroll-bars . nil))))
+     (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
+     (scroll-bar-mode -1)
+     (menu-bar-mode 0)
+     (tool-bar-mode 0)
+     (display-time-mode 1)
+     (display-battery-mode 1)
+   #+END_SRC
+
+** Fonts & Aesthetics
+   #+BEGIN_SRC emacs-lisp
+     (set-face-attribute
+      'default nil
+      :font "Iosevka 17" )
+
+     (setq default-frame-alist '((font . "Iosevka 17")))
+   #+END_SRC
+
+** Encoding
+
+   #+BEGIN_SRC emacs-lisp
+     (setq utf-translate-cjk-mode nil)
+     (set-language-environment "UTF-8")
+     (setq locale-coding-system 'utf-8)
+     (set-default-coding-systems 'utf-8)
+     (set-terminal-coding-system 'utf-8)
+     (set-selection-coding-system
+     (prefer-coding-system 'utf-8))
+   #+END_SRC
+
+** Prettify
+
+   Some symbols that I use quite a lot. I do enjoy to have more visual text, than just regular letters.
+   
+   #+begin_src emacs-lisp
+     (global-prettify-symbols-mode 1)
+     (defun add-pretty-lambda ()
+       (setq prettify-symbols-alist
+	     '(
+	       ("[ ]" . "☐")
+	       ("[X]" . "☑")
+	       ("lambda" . 955)
+	       ("epsilon" . "ɛ")
+	       ("->" . 8594)
+	       ("Wking" . 9812)
+	       ("WQueen" . 9813)
+	       ("WRook" . 9814)
+	       ("WBishop" . 9815)
+	       ("WKnight" . 9816)
+	       ("WPawn" . 9817)
+	       ("!sum" . ?∑)
+	       ("<=" . 8804)
+	       (">=" . 8805)
+	       ("=>" . ?➡)
+	       ("#+BEGIN_SRC"     . "λ")
+	       ("#+END_SRC"       . "λ")
+	       ("#+begin_src"     . "λ")
+	       ("#+end_src"       . "λ"))))
+     (add-hook 'prog-mode-hook 'add-pretty-lambda)
+     (add-hook 'org-mode-hook 'add-pretty-lambda)
+     ;("[ ]" .  "☐")
+     ;("[X]" . "☑" )
+     ;("[-]" . "❍" )
+   #+end_src
+
+* Extra Bindings & Changes (QoL)
+** Initial Screen
+   #+begin_src emacs-lisp
+     (setq inhibit-startup-screen t)
+     (setq initial-major-mode 'text-mode)
+     (setq initial-scratch-message 
+	   "Present Day, Present Time...\n")
+   #+end_src
+   
+** Buffer Killing
+
+   #+begin_src emacs-lisp
+     (defun custom/kill-this-buffer ()
+       (interactive) (kill-buffer (current-buffer)))
+
+     (global-set-key (kbd "C-x k")
+		     'kill-buffer-and-window)
+
+     (global-set-key (kbd "C-c k")
+		     'kill-buffer)
+   #+end_src
+** Backing Files
+
+   #+begin_src emacs-lisp
+     (setq backup-by-copying t
+	   backup-directory-alist '(("." . "~/.saves/"))
+	   delete-old-versions t
+	   kept-new-versions 6
+	   kept-old-versions 2
+	   version-control t)
+   #+end_src
+   
+** 'y' or 'n'
+   
+   #+begin_src emacs-lisp
+     (defalias 'yes-or-no-p 'y-or-n-p)
+   #+end_src
+
+** Switch window automatically
+
+   #+begin_src emacs-lisp
+     (defun split-and-follow-horizontally ()
+	 (interactive)
+	 (split-window-below)
+	 (balance-windows)
+	 (other-window 1))
+     (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+
+     (defun split-and-follow-vertically ()
+	 (interactive)
+	 (split-window-right)
+	 (balance-windows)
+	 (other-window 1))
+     (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+   #+end_src
+
+** Reload Configuration
+
+   #+begin_src emacs-lisp
+     (defun config-reload ()
+       "Reloads ~/.emacs.d/config.org at runtine"
+       (interactive)
+       (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+     (global-set-key (kbd "C-c r") 'config-reload)
+   #+end_src
+** Visit configuration
+
+   #+begin_src emacs-lisp
+     (defun config-visit()
+       (interactive)
+       (find-file "~/.emacs.d/config.org"))
+     (global-set-key (kbd "C-c e") 'config-visit)
+   #+end_src
+** Resizing Windows
+
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+     (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+     (global-set-key (kbd "S-C-<down>") 'shrink-window)
+     (global-set-key (kbd "S-C-<up>") 'enlarge-window)
+   #+end_src
+
+   #+RESULTS:
+   : enlarge-window
+** Dired enter folder
+
+   #+begin_src emacs-lisp
+     (put 'dired-find-alternate-file 'disabled nil)
+   #+end_src
+
+* Searching & Menus
+** Ido
+
+   Ido is a lot better for searching buffers, and files. It's clearly better than the default one that comes
+   with emacs.
+   
+   #+BEGIN_SRC emacs-lisp
+     (use-package ido
+       :ensure t
+       :config
+       (setq ido-everywhere t
+	     ido-enable-flex-matching t
+	     ido-separator "\n")
+       (ido-mode)
+       )
+   #+END_SRC
+   
+** Smex
+
+   It's basically the same as Ido but for M-x commands and functions.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package smex
+       :ensure t
+       :config
+       (global-set-key (kbd "M-x") 'smex)
+       (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+       )
+   #+END_SRC
+
+** Which Key
+
+   It's helpful to know what key combos are available whenever I'm typing something!
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package which-key
+       :ensure t
+       :config (which-key-mode)
+       )
+   #+END_SRC
+
+** Deft
+   Used mainly for the roam directory!
+   #+begin_src emacs-lisp
+     (use-package deft
+       :after org
+       :bind
+       ("C-c n D" . deft)
+       :custom
+       (deft-recursive t)
+       (deft-use-filter-string-for-filename t)
+       (deft-default-extension "org")
+       (deft-directory "~/Org/roam-general"))
+   #+end_src
+
+* General utilities
+** PDF Tools
+
+   The best pdf reader for emacs in my opinion. Possibly the best pdf reader for Linux as well,
+   although I really enjoy zathura.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package pdf-tools
+       :ensure t
+       :config
+       (pdf-tools-install))
+   #+END_SRC
+
+** Subtree
+
+   I do enjoy to use dired+ as my file manager. To make it more pleasing to the eye, I enjoy to couple it
+   with subtree.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package dired-subtree
+       :ensure t
+       :bind (:map dired-mode-map
+		   ("i" . dired-subtree-insert)
+		   (";" . dired-subtree-remove)
+		   ("<tab>" . dired-subtree-toggle)
+		   ("<backtab>" . dired-subtree-cycle)
+		   )
+       )
+   #+END_SRC
+
+** Dired+
+   Dired+ started to give problems when I switched to emacs native compilation, so I decided to just not use it
+   #+BEGIN_SRC emacs-lisp
+     ;;(use-package dired+
+     ;;  :quelpa (dired+ :fetcher url
+     ;;		  :url "https://www.emacswiki.org/emacs/download/dired+.el")
+     ;;  :defer 1
+     ;;  :config
+     ;;  (diredp-toggle-find-file-reuse-dir 1)
+     ;;  (setq diredp-hide-details-initially-flag nil)
+     ;;  (setq diredp-hide-details-propagate-flag nil)
+     ;;  (customize-set-variable 'diredp-dir-name t nil)
+     ;;  (customize-set-variable 'diredp-dir-heading t nil)
+     ;;  (customize-set-variable 'diredp-file-name t nil)
+     ;;  (customize-set-variable 'diredp-file-suffix t nil)
+     ;;  (global-dired-hide-details-mode t)
+     ;;  (setq dired-omit-files
+     ;;      (rx (or (seq bol (? ".") "#")
+     ;;	      (seq bol "." eol)
+     ;;	      (seq bol "^\\.$")
+     ;;	      )))
+     ;;  )
+     ;;
+   #+END_SRC
+
+** Treemacs Icons
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package treemacs-icons-dired
+	     :after treemacs dired
+	     :ensure t
+	     :config
+	     (treemacs-icons-dired-mode))
+
+     (add-hook 'dired-mode-hook 'treemacs-icons-dired-mode)
+     (defadvice dired-subtree-toggle (after add-icons activate) (treemacs-icons-dired--display))
+     (defadvice dired-subtree-toggle (after add-icons activate) (revert-buffer))
+   #+END_SRC
+
+** Ein
+   #+begin_src emacs-lisp
+     (use-package ein
+       :ensure t
+       :init
+       :config (require 'ein)
+       (require 'ein-notebook))
+     (customize-set-variable 'ein:output-area-inlined-images t)
+   #+end_src
+
+** Docker
+   #+begin_src emacs-lisp
+     (use-package docker
+       :ensure t
+       :bind ("C-c d" . docker))
+   #+end_src
+
+** Dashboard
+
+   #+begin_src emacs-lisp
+     (use-package dashboard
+       :ensure t
+       :config
+       (dashboard-setup-startup-hook)
+       (setq dashboard-set-navigator t)
+       (setq dashboard-center-content t)
+       (setq dashboard-banner-logo-title "G A F A N H O T O")
+       (setq dashboard-startup-banner "~/.emacs.d/grasshopper.png")
+       (setq dashboard-set-heading-icons t)
+       (setq dashboard-set-file-icons t)
+       (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+       (setq dashboard-footer-icon (all-the-icons-octicon "dashboard"
+							:height 1.1
+							:v-adjust -0.05
+							:face 'font-lock-keyword-face)))
+   #+end_src
+
+   #+RESULTS:
+   : t
+
+** Focused editing
+   
+
+   #+begin_src emacs-lisp
+     (use-package olivetti
+       :ensure
+       :defer
+       :diminish
+       :config
+       (setq olivetti-body-width 0.65)
+       (setq olivetti-minimum-body-width 72)
+       (setq olivetti-recall-visual-line-mode-entry-state t)
+
+       (define-minor-mode prot/olivetti-mode
+	 "Toggle buffer-local `olivetti-mode' with additional parameters.
+
+     Fringes are disabled.  The modeline is hidden, except for
+     `prog-mode' buffers (see `prot/hidden-mode-line-mode').  The
+     default typeface is set to a proportionately-spaced family,
+     except for programming modes (see `prot/variable-pitch-mode').
+     The cursor becomes a blinking bar, per `prot/cursor-type-mode'."
+	 :init-value nil
+	 :global nil
+	 (if prot/olivetti-mode
+	     (progn
+	       (olivetti-mode 1)
+	       (set-window-fringes (selected-window) 0 0)
+	       ;;(prot/variable-pitch-mode 1)
+	       (prot/cursor-type-mode 1)
+	       (unless (derived-mode-p 'prog-mode)
+		 (prot/hidden-mode-line-mode 1)))
+	   (olivetti-mode -1)
+	   (set-window-fringes (selected-window) nil)
+					     ; Use default width
+	   ;;(prot/variable-pitch-mode -1)
+	   (prot/cursor-type-mode -1)
+	   (unless (derived-mode-p 'prog-mode)
+	     (prot/hidden-mode-line-mode -1))))
+       :bind ("C-c o" . prot/olivetti-mode))
+
+     (use-package emacs
+       :commands prot/hidden-mode-line-mode
+       :config
+       (setq mode-line-percent-position '(-3 "%p"))
+       (setq mode-line-defining-kbd-macro
+	     (propertize " Macro" 'face 'mode-line-emphasis))
+       (setq-default mode-line-format
+		     '("%e"
+		       mode-line-front-space
+		       mode-line-mule-info
+		       mode-line-client
+		       mode-line-modified
+		       mode-line-remote
+		       mode-line-frame-identification
+		       mode-line-buffer-identification
+		       "  "
+		       mode-line-position
+		       (vc-mode vc-mode)
+		       " "
+		       mode-line-modes
+		       " "
+		       mode-line-misc-info
+		       mode-line-end-spaces))
+
+       (define-minor-mode prot/hidden-mode-line-mode
+	 "Toggle modeline visibility in the current buffer."
+	 :init-value nil
+	 :global nil
+	 (if prot/hidden-mode-line-mode
+	     (setq-local mode-line-format nil)
+	   (kill-local-variable 'mode-line-format)
+	   (force-mode-line-update))))
+
+     ;;(use-package face-remap
+     ;;  :diminish buffer-face-mode            ; the actual mode
+     ;;  :commands prot/variable-pitch-mode
+     ;;  :config
+     ;;  (define-minor-mode prot/variable-pitch-mode
+     ;;    "Toggle `variable-pitch-mode', except for `prog-mode'."
+     ;;    :init-value nil
+     ;;    :global nil
+     ;;    (if prot/variable-pitch-mode
+     ;;	(unless (derived-mode-p 'prog-mode)
+     ;;	  (variable-pitch-mode 1))
+     ;;      (variable-pitch-mode -1))))
+
+
+     (use-package emacs
+       :config
+       (setq-default scroll-preserve-screen-position t)
+       (setq-default scroll-conservatively 1) ; affects `scroll-step'
+       (setq-default scroll-margin 0)
+
+       (define-minor-mode prot/scroll-centre-cursor-mode
+	 "Toggle centred cursor scrolling behaviour."
+	 :init-value nil
+	 :lighter " S="
+	 :global nil
+	 (if prot/scroll-centre-cursor-mode
+	     (setq-local scroll-margin (* (frame-height) 2)
+			 scroll-conservatively 0
+			 maximum-scroll-margin 0.5)
+	   (dolist (local '(scroll-preserve-screen-position
+			    scroll-conservatively
+			    maximum-scroll-margin
+			    scroll-margin))
+	     (kill-local-variable `,local))))
+
+       ;; C-c l is used for `org-store-link'.  The mnemonic for this is to
+       ;; focus the Line and also works as a variant of C-l.
+       :bind ("C-c L" . prot/scroll-centre-cursor-mode))
+
+
+     (use-package display-line-numbers
+       :defer
+       :config
+       ;; Set absolute line numbers.  A value of "relative" is also useful.
+       (setq display-line-numbers-type t)
+
+       (define-minor-mode prot/display-line-numbers-mode
+	 "Toggle `display-line-numbers-mode' and `hl-line-mode'."
+	 :init-value nil
+	 :global nil
+	 (if prot/display-line-numbers-mode
+	     (progn
+	       (display-line-numbers-mode 1)
+	       (hl-line-mode 1))
+	   (display-line-numbers-mode -1)
+	   (hl-line-mode -1)))
+       :bind ("<f7>" . prot/display-line-numbers-mode))
+
+
+     (use-package frame
+       :commands prot/cursor-type-mode
+       :config
+       (setq-default cursor-type 'box)
+       (setq-default cursor-in-non-selected-windows '(bar . 2))
+       (setq-default blink-cursor-blinks 50)
+       (setq-default blink-cursor-interval nil) ; 0.75 would be my choice
+       (setq-default blink-cursor-delay 0.2)
+
+       (blink-cursor-mode -1)
+
+       (define-minor-mode prot/cursor-type-mode
+	 "Toggle between static block and pulsing bar cursor."
+	 :init-value nil
+	 :global t
+	 (if prot/cursor-type-mode
+	     (progn
+	       (setq-local blink-cursor-interval 0.75
+			   cursor-type '(bar . 2)
+			   cursor-in-non-selected-windows 'hollow)
+	       (blink-cursor-mode 1))
+	   (dolist (local '(blink-cursor-interval
+			    cursor-type
+			    cursor-in-non-selected-windows))
+	     (kill-local-variable `,local))
+	   (blink-cursor-mode -1))))
+   #+end_src
+
+   #+RESULTS:
+   : t
+
+** Calendar Framework
+   Better calendar views compared to the default emacs ones.
+   #+begin_src emacs-lisp
+     (use-package calfw-org
+       :after calfw)
+     (require 'calfw)
+   #+end_src
+
+* Shell & Terminals
+** Eshell
+
+   #+begin_src emacs-lisp
+     (setq eshell-prompt-regexp "^[^αλ\n]*[αλ] ")
+     (setq eshell-prompt-function
+	   (lambda nil
+	     (concat
+	      (if (string= (eshell/pwd) (getenv "HOME"))
+		  (propertize "~" 'face `(:foreground "#99CCFF"))
+		(replace-regexp-in-string
+		 (getenv "HOME")
+		 (propertize "~" 'face `(:foreground "#99CCFF"))
+		 (propertize (eshell/pwd) 'face `(:foreground "#99CCFF"))))
+	      (if (= (user-uid) 0)
+		  (propertize " α " 'face `(:foreground "#FF6666"))
+
+		(propertize " λ " 'face `(:foreground "#A6E22E"))))))
+
+     (setq eshell-highlight-prompt nil)
+   #+end_src
+
+   #+begin_src emacs-lisp
+     (defalias 'open 'find-file-other-window)
+     (defalias 'clean 'eshell/clear-scrollback)
+   #+end_src
+
+   #+begin_src emacs-lisp
+     (defun eshell-other-window ()
+       "Create or visit an eshell buffer."
+       (interactive)
+       (if (not (get-buffer "*eshell*"))
+	   (progn
+	     (split-window-sensibly (selected-window))
+	     (other-window 1)
+	     (eshell))
+	 (switch-to-buffer-other-window "*eshell*")))
+
+     (global-set-key (kbd "<s-C-return>") 'eshell-other-window)
+   #+end_src
+
+* Spelling & Completion
+** Flyspell
+
+   Flyspell mode so that I can have spelling highlighting.
+   
+   #+BEGIN_SRC emacs-lisp
+     (use-package flyspell
+       :ensure t
+       :config
+       (add-hook 'text-mode-hook 'flyspell-mode)
+       )
+   #+END_SRC
+   
+** Ispell
+
+   The spelling program I generally use with emacs to check If I am doing any sort of language related mistake.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ispell
+       :ensure t
+       :config
+       (setq ispell-program-name "aspell")
+       (setq ispell-dictionary "english")
+       (global-set-key (kbd "C-<f8>") 'flyspell-check-previous-highlighted-word))
+   #+END_SRC
+
+   #+RESULTS:
+   : t
+
+** Auto Complete
+
+   I use Auto complete for the majority of my code completion. It's a pretty good completion add-on.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package auto-complete
+       :ensure t)
+   #+END_SRC
+
+** Yasnippet
+
+   Code snippets help to speed general code writing.
+   
+   #+BEGIN_SRC emacs-lisp
+     (use-package yasnippet
+       :ensure t
+       :config
+       (yas-global-mode 1)
+       )
+   #+END_SRC
+
+** Company Mode
+
+   I make use of company mode to get my suggestions. I'm not sure if it is indeed the best program for
+   this, but I have been using for a while now and it has not disappointed.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package company
+       :ensure t
+       :config
+       ; No delay in showing suggestions.
+       (setq company-idle-delay 0)
+
+       ; go back up in the end
+       (setq company-selection-wrap-around t)
+
+       ; Use tab key to cycle through suggestions.
+       ; ('tng' means 'tab and go')
+       (company-tng-configure-default)
+       )
+   #+END_SRC
+
+   I like to do my auto completion like I have always been doing since I started coding. With the [TAB] key!
+
+   #+BEGIN_SRC emacs-lisp
+     (defun tab-indent-or-complete ()
+       (interactive)
+       (if (minibufferp)
+	   (minibuffer-complete)
+	 (if (or (not yas-minor-mode)
+		 (null (do-yas-expand)))
+	     (if (check-expansion)
+		 (company-complete-common)
+	       (indent-for-tab-command)))))
+
+     (global-set-key [backtab] 'tab-indent-or-complete)
+   #+END_SRC
+
+* Programming Languages
+** LSP Mode
+
+   #+begin_src emacs-lisp
+     (use-package lsp-mode
+       :ensure t
+       :init
+       (setq lsp-keymap-prefix "C-c l")
+       :hook
+       ((rust-mode . lsp)
+	(lsp-mode .lsp-enable-which-key-integration)
+	)
+       :commands lsp
+       :custom
+       (lsp-rust-analyzer-cargo-watch-command "clippy")
+       (lsp-rust-analyzer-server-display-inlay-hints t)
+       (lsp-eldoc-render-all t))
+
+     (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+     (setq gc-cons-threshold 100000000)
+     (setq read-process-output-max (* 1024 1024))
+     (setq lsp-idle-delay 0.500)
+   #+end_src
+
+** LSP Ui
+
+   #+begin_src emacs-lisp
+     (use-package lsp-ui
+       :ensure
+       :commands lsp-ui-mode
+       :custom
+       (lsp-ui-peek-always-show t)
+       (lsp-ui-sideline-show-hover t)
+       (lsp-ui-doc-enable nil))
+   #+end_src
+
+** Rust
+   #+begin_src emacs-lisp
+     (add-hook 'rust-mode-hook 'rustic-mode)
+     ;; (define-key rust-mode-hook (kbd "C-c C-c r") 'rust-run)
+     ;; (define-key rust-mode-hook (kbd "C-c C-c l") 'rust-run-clippy)y
+   #+end_src
+
+** Haskell
+
+   #+begin_src emacs-lisp
+     (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+     (add-hook 'haskell-mode-hook #'hindent-mode)
+     (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+
+     ;; Navigate to import section.
+     (eval-after-load 'haskell-mode
+       '(define-key haskell-mode-map [f8] 'haskell-navigate-imports))
+
+     ;; Haskell tags
+     (custom-set-variables '(haskell-tags-on-save t))
+   #+end_src
+
+   The interactive part in haskell-mode
+   #+begin_src emacs-lisp
+     (custom-set-variables
+       '(haskell-process-suggest-remove-import-lines t)
+       '(haskell-process-auto-import-loaded-modules t)
+       '(haskell-process-log t))
+     (eval-after-load 'haskell-mode '(progn
+				       (custom-set-variables '(haskell-process-type 'stack-ghci))
+				       (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-file)
+				       (define-key haskell-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
+				       (define-key haskell-mode-map (kbd "C-c C-n C-t") 'haskell-process-do-type)
+				       (define-key haskell-mode-map (kbd "C-c C-n C-i") 'haskell-process-do-info)
+				       (define-key haskell-mode-map (kbd "C-c C-n C-c") 'haskell-process-cabal-build)
+				       (define-key haskell-mode-map (kbd "C-c C-n c") 'haskell-process-cabal)))
+   #+end_src
+
+** SPARQL
+
+   Not really a programming language. SPARQL is more a query language for graph like databases.
+   Learn how to use it while having Semantic Web classes on my masters.
+
+   #+begin_src emacs-lisp
+     (use-package sparql-mode
+       :ensure t
+       :config
+       (add-to-list 'auto-mode-alist '("\\.sparql$" . sparql-mode))
+       (add-to-list 'auto-mode-alist '("\\.rq$" . sparql-mode))
+       )
+   #+end_src
+** Common Lisp
+   The Ros environment is probably the easiest way to have lisp on my system without messing things.
+   #+begin_src emacs-lisp
+     (setq inferior-lisp-program "ros run")
+     (add-hook 'lisp-mode-hook #'smartparens-mode)
+     (add-hook 'sly-mode-hook #'smartparens-mode)
+   #+end_src
+
+** Emacs Lisp
+   Emacs lisp stuff
+   #+begin_src emacs-lisp
+     (add-hook 'emacs-lisp-mode-hook #'electric-pair-mode)
+   #+end_src
+
+** Python
+   In order to have ipython correctly formatted, I need to use this arguments.
+   #+begin_src emacs-lisp
+     (setq python-shell-interpreter "ipython3"
+	   python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True")
+   #+end_src
+
+   #+RESULTS:
+   : -i --simple-prompt --InteractiveShell.display_page=True
+
+   #+begin_src emacs-lisp
+     ;(use-package lsp-jedi
+     ;  :ensure t
+     ;  :config
+     ;  (with-eval-after-load "lsp-mode"
+     ;    (add-to-list 'lsp-disabled-clients 'pyls)
+     ;    (add-to-list 'lsp-enabled-clients 'jedi)))
+
+     ;;(use-package lsp-python-ms
+     ;;  :ensure t
+     ;;  :init (setq lsp-python-ms-auto-install-server t)
+     ;;  :hook (python-mode . (lambda ()
+     ;;			  (require 'lsp-python-ms)
+     ;;			  (lsp))))  ; or lsp-deferred
+     ;;y
+   #+end_src
+
+   #+RESULTS:
+   : t
+
+   #+begin_src emacs-lisp
+     (setenv "WORKON_HOME" "/home/grass/py_home")
+   #+end_src
+** Typescript
+
+   #+begin_src emacs-lisp
+     (use-package typescript-mode
+       :ensure t
+       :mode "\\.ts\\'"
+     ;;  :hook (typescript-mode . lsp-deferred)
+       :config
+       (setq typescript-indent-level 2))
+   #+end_src
+
+   Test the tide package
+
+   #+begin_src emacs-lisp
+     (use-package tide
+       :ensure t
+       :after (typescript-mode company flycheck)
+       :hook ((typescript-mode . tide-setup)
+	      (typescript-mode . tide-hl-identifier-mode)
+	      (before-save . tide-format-before-save)))
+   #+end_src
+
+   #+begin_src emacs-lisp
+     (defun setup-tide-mode ()
+       (interactive)
+       (tide-setup)
+       (flycheck-mode +1)
+       (setq flycheck-check-syntax-automatically '(save mode-enabled))
+       (eldoc-mode +1)
+       (tide-hl-identifier-mode +1)
+       ;; company is an optional dependency. You have to
+       ;; install it separately via package-install
+       ;; `M-x package-install [ret] company`
+       (company-mode +1))
+
+     ;; aligns annotation to the right hand side
+     (setq company-tooltip-align-annotations t)
+
+     ;; formats the buffer before saving
+     (add-hook 'before-save-hook 'tide-format-before-save)
+
+     (add-hook 'typescript-mode-hook #'setup-tide-mode)
+   #+end_src
+
+** JavaScript
+
+   #+begin_src emacs-lisp
+     (use-package js2-mode
+       :ensure t
+       :mode "\\.js\\'"
+       :hook (js2-mode . lsp-deferred))
+     (add-hook 'javascript-mode #'js2-mode)
+   #+end_src
+
+** Elm
+   Elm is a functional language that compiles to JavaScript.
+   Elm tutorial: [[https://guide.elm-lang.org/][An Introduction to Elm]]
+   #+begin_src emacs-lisp
+     (use-package elm-mode
+       :ensure t
+       :hook ((elm-mode . elm-format-on-save-mode)
+	      (elm-mode . elm-indent-mode)))
+   #+end_src
+
+** Prolog
+
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
+     (setq prolog-eletric-if-then-else-flag t)
+
+     (global-set-key (kbd "C-c l")
+		     (lambda ()
+		       (interactive)
+		       (insert ":- use_module(library()).")
+		       (forward-char -3)))
+
+     (defun prolog-insert-comment-block ()
+       "Insert a PceEmacs-style comment block like /* - - ... - - */ "
+       (interactive)
+       (let ((dashes "-"))
+	 (dotimes (_ 36) (setq dashes (concat "- " dashes)))
+	 (insert (format "/* %s\n\n%s */" dashes dashes))
+	 (forward-line -1)
+	 (indent-for-tab-command)))
+
+     (global-set-key "\C-cq" 'prolog-insert-comment-block)
+   #+end_src
+
+** Freest
+   #+begin_src emacs-lisp
+     (add-to-list 'load-path "~/.emacs.d/freest-mode/")
+     (require 'freest-mode)
+     ;; This automatically chooses freest-mode when editing FreeST files.
+     (add-to-list 'auto-mode-alist '("\\.fst\\'" . freest2-mode))
+     (load "~/.emacs.d/freest-mode/ob-freest.el")
+   #+end_src
+
+** Agda
+   #+begin_src emacs-lisp
+     ;; (load-file (let ((coding-system-for-read 'utf-8))
+     ;; 		(shell-command-to-string "agda-mode locate")))
+   #+end_src
+* All Org Related
+** Org Bullets
+
+   Org mode by default has some pretty aesthetics, but I do find it nice to have some custom bullet icons.
+   In general I like to my tools look mine, this is one of the ways I found to make Org more like myself.
+
+
+
+   #+begin_src emacs-lisp
+     (use-package org-bullets
+       :ensure t
+       :init
+       (setq org-bullets-bullet-list
+	     '("ꖜ" "⟑" "❉" "⨿" "ᖷ"))
+       (setq org-todo-keywords 
+	     '((sequence "☛ TODO(t)" "➤ NEXT(n)" "|" "✔ DONE(d)")
+	       (sequence "∞ WAITING(w)" "|"  "✘ CANCELED(c)")
+	       (sequence "∞ READING(r)" "∞ VIEWING(v)" "𝅘𝅥𝅮 LISTENING(l)" "░ WATCHLIST(a)"
+			 "|"  "◤ FINISHED(f)")))
+       :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+   #+end_src
+
+   #+RESULTS:
+   : t
+
+*** Testing
+    Testing bullets
+**** Testing sub 2
+     Another test to see if bullets are alright
+***** Another Test
+      The last bullet
+
+** Org Tempo
+
+   In order to write blocks of code on my org files I need to type the correct head and close tags.
+   I don't really want to waste time memorising those tags, or writing them. To save myself time,
+   and patience I use org-tempo and configure all the blocks for each kind of language.
+   
+   #+BEGIN_SRC emacs-lisp
+     (require 'org-tempo)
+     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+     (add-to-list 'org-structure-template-alist '("py" . "src python :results output :exports both"))
+     (add-to-list 'org-structure-template-alist '("pyp" . "src python :session :results output :exports both"))
+     (add-to-list 'org-structure-template-alist '("cp" . "src C"))
+     (add-to-list 'org-structure-template-alist '("cl" . "src lisp"))
+     (add-to-list 'org-structure-template-alist '("hk" . "src haskell"))
+     (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
+   #+END_SRC
+
+** Org Babel
+
+   #+begin_src emacs-lisp
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((sparql . t)
+	(R . t)
+	(python . t)
+	(C . t)
+	(dot . t)
+	(java . t)
+	(lisp . t)
+	(shell . t)
+	(haskell . t)
+	(js . t)))
+     ;; (freest . t)
+     ;; (prolog . t)
+
+   #+end_src
+
+   #+RESULTS:
+
+** Org Roam
+   
+   #+begin_src emacs-lisp
+     (use-package org-roam
+       :ensure t
+       :custom
+       (org-roam-directory (file-truename "~/Org/roam-general/"))
+       :bind (("C-c n l" . org-roam-buffer-toggle)
+	      ("C-c n f" . org-roam-node-find)
+	      ("C-c n g" . org-roam-graph)
+	      ("C-c n i" . org-roam-node-insert)
+	      ("C-c n c" . org-roam-capture)
+	      ;; Dailies
+	      ("C-c n j" . org-roam-dailies-capture-today))
+       :config
+       (org-roam-db-autosync-mode))
+     (setq org-roam-v2-ack t)
+     (setq org-roam-node-display-template "${title:10} ${tags:10}")
+   #+end_src
+
+** Org Roam Server
+   Org roam server helps visualise the notes I take
+   #+begin_src emacs-lisp
+     ;; (use-package org-roam-server
+     ;;   :ensure t
+     ;;   :config
+     ;;   (setq org-roam-server-host "127.0.0.1"
+     ;; 	org-roam-server-port 8080
+     ;; 	org-roam-server-authenticate nil
+     ;; 	org-roam-server-export-inline-images t
+     ;; 	org-roam-server-serve-files nil
+     ;; 	org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+     ;; 	org-roam-server-network-poll t
+     ;; 	org-roam-server-network-arrows nil
+     ;; 	org-roam-server-network-label-truncate t
+     ;; 	org-roam-server-network-label-truncate-length 60
+     ;; 	org-roam-server-network-label-wrap-length 20))
+     ;; 
+   #+end_src
+
+   I do like to have a quick short cut to open the graph on the browser, so I wrote one.
+   #+begin_src emacs-lisp
+     (defun Graph ()
+       (interactive)
+       (if (bound-and-true-p org-roam-server-mode)
+	   (browse-url "http://127.0.0.1:8080")
+	 (org-roam-server-mode) (browse-url "http://127.0.0.1:8080")))
+
+     (global-set-key (kbd "C-c n G") 'Graph)
+   #+end_src
+
+** Org Roam Change Directory
+   #+begin_src emacs-lisp
+     (require' ffap)
+     (require' f)
+     (defun org-roam-dir-hack ()
+       "Choose and update `org-roam-directory'."
+       (interactive)
+       (let ((dir (ivy-read "Choose roam directory: "
+			    (seq-filter
+			     (lambda (dir)
+			       (string-match "roam-" dir))
+			     (ffap-all-subdirs "~/Org/" 1)))))
+	 (setq org-roam-directory (file-truename dir)))
+       (f-write-text org-roam-directory
+		     'utf-8
+		     (format "~/Org/%s" (symbol-name 'org-roam-directory)))
+       (org-roam-db-autosync-mode))
+   #+end_src
+
+** Org Preview
+
+   #+begin_src emacs-lisp
+     (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
+   #+end_src
+
+** Org Agenda
+   Org Agenda is very good for getting things organised.   
+*** Org Agenda basic set up
+    The basic set up for org agenda that works with me. Also the files might change from time to time, but
+    generally speaking I don't like to have too many files.
+    #+begin_src emacs-lisp
+      (setq org-agenda-files '("~/Org/University.org"
+			       "~/Org/Personal.org"
+			       "~/Org/Birthdays.org"
+			       "~/Org/IMDEA.org"))
+      (global-set-key (kbd "C-c a") 'org-agenda)
+      (setq org-refile-targets
+	    '(("~/Org/University.org" :maxlevel . 2)
+	      ("~/Org/Personal.org" :maxlevel . 1)
+	      ("~/Org/IMDEA.org" :maxlevel . 2)))
+    #+end_src
+
+*** Org Custom Changes
+    #+begin_src emacs-lisp
+      (setq org-agenda-custom-commands
+	    '(("U" "Agenda & University"
+	       ((agenda "")
+		(tags-todo "@University+Thesis-DONE")
+		(tags-todo "@University+Study-DONE")
+		(tags "+Level=4+Projects-DONE")))
+	      ("P" "Agenda & Personal"
+	       ((agenda "")
+		(tags-todo "@Personal-DONE")
+		(tags "+Level=3+Books")
+		(tags "+Level=3+Series")
+		(tags "+Level=3+Anime")
+		(tags "+Level=3+Films")
+		))))
+    #+end_src
+
+** Org Plotting
+   #+begin_src emacs-lisp
+     (local-set-key "\M-\C-g" 'org-plot/gnuplot)
+   #+end_src
+
+** Blog
+   #+begin_src emacs-lisp
+     (setq easy-hugo-server-flags "-D")
+     (setq easy-hugo-basedir "~/Documents/Gafanhoto/")
+   #+end_src
+
+** Extras
+
+   #+begin_src emacs-lisp
+     (setq org-agenda-start-with-log-mode t)
+     (setq org-log-done 'time)
+     (setq org-ellipsis "🢱")
+     (setq org-log-done t)
+     (setq org-log-into-drawer t)
+   #+end_src
+
+
+   #+begin_src emacs-lisp
+     (setq org-hide-emphasis-markers t)
+     (setq org-image-actual-width nil)
+     (eval-after-load 'org
+       (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images))
+   #+end_src
+   
