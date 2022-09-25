@@ -910,6 +910,7 @@
    #+RESULTS:
    : t
 
+   Just a piece of text for testing the icons used for the headings.
 *** Testing
     Testing bullets
 **** Testing sub 2
@@ -1040,7 +1041,7 @@
     #+begin_src emacs-lisp
       (setq org-agenda-files '("~/Org/University.org"
 			       "~/Org/Personal.org"
-			       "~/Org/Birthdays.org"
+      ;;			 "~/Org/Birthdays.org"
 			       "~/Org/IMDEA.org"))
       (global-set-key (kbd "C-c a") 'org-agenda)
       (setq org-refile-targets
