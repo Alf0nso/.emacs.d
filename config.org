@@ -23,7 +23,7 @@
        (doom-themes-org-config))
    #+end_src
    
-** Removing Bars, Bells, etc
+** Removing Bars, etc...
 
    Removing Things that are not needed
    
@@ -40,6 +40,15 @@
      (display-battery-mode 1)
    #+END_SRC
 
+** Bells and notifications
+In arch Linux this did not seem a problem, but when I started using the
+work laptop (running Ubuntu) every time I did [Ctrl] - g too many times
+I would hit the warning bell. To avoid this I just deactivated
+the functionality.
+
+ #+begin_src emacs-lisp
+   (setq ring-bell-function 'ignore)
+ #+end_src 
 ** Fonts & Aesthetics
    #+BEGIN_SRC emacs-lisp
      (set-face-attribute
