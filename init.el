@@ -55,12 +55,17 @@
  '(diredp-file-name t t)
  '(diredp-file-suffix t t)
  '(ein:output-area-inlined-images t)
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t)
+ '(haskell-process-suggest-remove-import-lines t)
+ '(haskell-process-type 'stack-ghci)
+ '(haskell-tags-on-save t)
  '(olivetti-body-width 72)
  '(org-format-latex-options
    '(:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
 		 ("begin" "$1" "$" "$$" "\\(" "\\[")))
  '(package-selected-packages
-   '(org-roam multiple-cursors ox-gfm hindent ghc-imported-from retrie ein go-imports go-snippets go-mode slime projectile page-break-lines pdf-tools helm-spotify tide lsp-grammarly php-mode elm-mode gnuplot-mode gnuplot calfw calfw-org rustic racer rust-mode magit lsp-jedi peep-dired dired-hacks-utils olivetti org-roam-bibtex lsp-ivy lsp-ui ob-deno ac-sly dashboard easy-hugo ox-hugo ob-prolog js2-mode typescript-mode pyvenv docker dockerfile-mode math-preview yascroll smartparens deft org-roam-server yasnippet-snippets java-snippets sly sly-quicklisp common-lisp-snippets sparql-mode lsp-haskell haskell-snippets ivy lsp-mode haskell-mode all-the-icons doom-themes afternoon-theme treemacs-icons-dired dired+ quelpa org-bullets dired-subtree company comapny-mode comapny yasnippet auto-complete which-key smex use-package))
+   '(boogie-friends vterm org-roam multiple-cursors ox-gfm hindent ghc-imported-from retrie ein go-imports go-snippets go-mode slime projectile page-break-lines pdf-tools helm-spotify tide lsp-grammarly php-mode elm-mode gnuplot-mode gnuplot calfw calfw-org rustic racer rust-mode magit lsp-jedi peep-dired dired-hacks-utils olivetti org-roam-bibtex lsp-ivy lsp-ui ob-deno ac-sly dashboard easy-hugo ox-hugo ob-prolog js2-mode typescript-mode pyvenv docker dockerfile-mode math-preview yascroll smartparens deft org-roam-server yasnippet-snippets java-snippets sly sly-quicklisp common-lisp-snippets sparql-mode lsp-haskell haskell-snippets ivy lsp-mode haskell-mode all-the-icons doom-themes afternoon-theme treemacs-icons-dired dired+ quelpa org-bullets dired-subtree company comapny-mode comapny yasnippet auto-complete which-key smex use-package))
  '(warning-suppress-types
    '((comp)
      (comp)
@@ -89,6 +94,11 @@
 
 ;;; Load org file configuration
 (org-babel-load-file (expand-file-name
-		      "~/.emacs.d/config.org"))
+		      "~/.emacs.d/README.org"))
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
+; @begin(55501972)@ - Do not edit these lines - added automatically!
+(if (file-exists-p "/home/afonso.rafael/.ciaoroot/v1.22.0-m1/ciao_emacs/elisp/ciao-site-file.el")
+  (load-file "/home/afonso.rafael/.ciaoroot/v1.22.0-m1/ciao_emacs/elisp/ciao-site-file.el"))
+; @end(55501972)@ - End of automatically added lines.
