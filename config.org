@@ -283,26 +283,26 @@ the functionality.
 ** Dired+
    Dired+ started to give problems when I switched to emacs native compilation, so I decided to just not use it
    #+BEGIN_SRC emacs-lisp
-     ;;(use-package dired+
-     ;;  :quelpa (dired+ :fetcher url
-     ;;		  :url "https://www.emacswiki.org/emacs/download/dired+.el")
-     ;;  :defer 1
-     ;;  :config
-     ;;  (diredp-toggle-find-file-reuse-dir 1)
-     ;;  (setq diredp-hide-details-initially-flag nil)
-     ;;  (setq diredp-hide-details-propagate-flag nil)
-     ;;  (customize-set-variable 'diredp-dir-name t nil)
-     ;;  (customize-set-variable 'diredp-dir-heading t nil)
-     ;;  (customize-set-variable 'diredp-file-name t nil)
-     ;;  (customize-set-variable 'diredp-file-suffix t nil)
-     ;;  (global-dired-hide-details-mode t)
-     ;;  (setq dired-omit-files
-     ;;      (rx (or (seq bol (? ".") "#")
-     ;;	      (seq bol "." eol)
-     ;;	      (seq bol "^\\.$")
-     ;;	      )))
-     ;;  )
-     ;;
+     (use-package dired+
+       :quelpa (dired+ :fetcher url
+		       :url "https://www.emacswiki.org/emacs/download/dired+.el")
+       :defer 1
+       :config
+       (dired-hide-details-mode)
+       (diredp-toggle-find-file-reuse-dir 1)
+       (setq diredp-hide-details-initially-flag nil)
+       (setq diredp-hide-details-propagate-flag nil)
+       (customize-set-variable 'diredp-dir-name t nil)
+       (customize-set-variable 'diredp-dir-heading t nil)
+       (customize-set-variable 'diredp-file-name t nil)
+       (customize-set-variable 'diredp-file-suffix t nil)
+       (global-dired-hide-details-mode t)
+       (setq dired-omit-files
+	   (rx (or (seq bol (? ".") "#")
+		   (seq bol "." eol)
+		   (seq bol "^\\.$")
+		   ))))
+
    #+END_SRC
 
 ** Treemacs Icons
@@ -529,6 +529,9 @@ the functionality.
        :after calfw)
      (require 'calfw)
    #+end_src
+
+   #+RESULTS:
+   : calfw
 
 * Shell & Terminals
 ** Eshell
@@ -894,6 +897,15 @@ the functionality.
      ;; (load-file (let ((coding-system-for-read 'utf-8))
      ;; 		(shell-command-to-string "agda-mode locate")))
    #+end_src
+** Juvix
+#+begin_src emacs-lisp
+(push "~/.emacs.d/juvix-mode/" load-path)
+(require 'juvix-mode)
+#+end_src
+
+#+RESULTS:
+: juvix-mode
+
 * All Org Related
 ** Org Bullets
 

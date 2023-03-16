@@ -65,7 +65,7 @@
    '(:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
 		 ("begin" "$1" "$" "$$" "\\(" "\\[")))
  '(package-selected-packages
-   '(dante liquid-types flycheck-liquidhs company-coq proof-general boogie-friends vterm org-roam multiple-cursors ox-gfm hindent ghc-imported-from retrie ein go-imports go-snippets go-mode slime projectile page-break-lines pdf-tools helm-spotify tide lsp-grammarly php-mode elm-mode gnuplot-mode gnuplot calfw calfw-org rustic racer rust-mode magit lsp-jedi peep-dired dired-hacks-utils olivetti org-roam-bibtex lsp-ivy lsp-ui ob-deno ac-sly dashboard easy-hugo ox-hugo ob-prolog js2-mode typescript-mode pyvenv docker dockerfile-mode math-preview yascroll smartparens deft org-roam-server yasnippet-snippets java-snippets sly sly-quicklisp common-lisp-snippets sparql-mode lsp-haskell haskell-snippets ivy lsp-mode haskell-mode all-the-icons doom-themes afternoon-theme treemacs-icons-dired dired+ quelpa org-bullets dired-subtree company comapny-mode comapny yasnippet auto-complete which-key smex use-package))
+   '(lua-mode erlang ocamlformat racket-mode calfw-gcal calfw-cal dante liquid-types flycheck-liquidhs company-coq proof-general boogie-friends vterm org-roam multiple-cursors ox-gfm hindent ghc-imported-from retrie ein go-imports go-snippets go-mode slime projectile page-break-lines pdf-tools helm-spotify tide lsp-grammarly php-mode elm-mode gnuplot-mode gnuplot calfw calfw-org rustic racer rust-mode magit lsp-jedi peep-dired dired-hacks-utils olivetti org-roam-bibtex lsp-ivy lsp-ui ob-deno ac-sly dashboard easy-hugo ox-hugo ob-prolog js2-mode typescript-mode pyvenv docker dockerfile-mode math-preview yascroll smartparens deft org-roam-server yasnippet-snippets java-snippets sly sly-quicklisp common-lisp-snippets sparql-mode lsp-haskell haskell-snippets ivy lsp-mode haskell-mode all-the-icons doom-themes afternoon-theme treemacs-icons-dired dired+ quelpa org-bullets dired-subtree company comapny-mode comapny yasnippet auto-complete which-key smex use-package))
  '(warning-suppress-types
    '((comp)
      (comp)
@@ -99,6 +99,6 @@
 (put 'upcase-region 'disabled nil)
 
 ; @begin(55501972)@ - Do not edit these lines - added automatically!
-(if (file-exists-p "/home/afonso.rafael/.ciaoroot/v1.22.0-m1/ciao_emacs/elisp/ciao-site-file.el")
-  (load-file "/home/afonso.rafael/.ciaoroot/v1.22.0-m1/ciao_emacs/elisp/ciao-site-file.el"))
+(if (file-exists-p "/home/grasshopper/.ciaoroot/v1.22.0-m1/ciao_emacs/elisp/ciao-site-file.el")
+  (load-file "/home/grasshopper/.ciaoroot/v1.22.0-m1/ciao_emacs/elisp/ciao-site-file.el"))
 ; @end(55501972)@ - End of automatically added lines.
