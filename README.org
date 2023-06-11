@@ -84,6 +84,7 @@ the functionality.
 	       ("lambda" . 955)
 	       ("epsilon" . "ɛ")
 	       ("->" . 8594)
+	       ("<-" . 8592)
 	       ("Wking" . 9812)
 	       ("WQueen" . 9813)
 	       ("WRook" . 9814)
@@ -100,9 +101,6 @@ the functionality.
 	       ("#+end_src"       . "λ"))))
      (add-hook 'prog-mode-hook 'add-pretty-lambda)
      (add-hook 'org-mode-hook 'add-pretty-lambda)
-     ;("[ ]" .  "☐")
-     ;("[X]" . "☑" )
-     ;("[-]" . "❍" )
    #+end_src
 
 * Extra Bindings & Changes (QoL)
@@ -165,9 +163,9 @@ the functionality.
 
    #+begin_src emacs-lisp
      (defun config-reload ()
-       "Reloads ~/.emacs.d/config.org at runtine"
+       "Reloads ~/.emacs.d/README.org at runtine"
        (interactive)
-       (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+       (org-babel-load-file (expand-file-name "~/.emacs.d/README.org")))
      (global-set-key (kbd "C-c r") 'config-reload)
    #+end_src
 ** Visit configuration
@@ -175,7 +173,7 @@ the functionality.
    #+begin_src emacs-lisp
      (defun config-visit()
        (interactive)
-       (find-file "~/.emacs.d/config.org"))
+       (find-file "~/.emacs.d/README.org"))
      (global-set-key (kbd "C-c e") 'config-visit)
    #+end_src
 ** Resizing Windows
@@ -258,9 +256,14 @@ the functionality.
 
    #+BEGIN_SRC emacs-lisp
      (use-package pdf-tools
+       :pin manual
        :ensure t
        :config
-       (pdf-tools-install))
+       (pdf-tools-install)
+       (setq-default pdf-view-display-size 'fit-width)
+       (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+       :custom
+       (pdf-annot-activate-created-annotations t "automatically annotate highlights"))
    #+END_SRC
 
 ** Subtree
@@ -698,7 +701,7 @@ the functionality.
    #+begin_src emacs-lisp
      (add-hook 'rust-mode-hook 'rustic-mode)
      ;; (define-key rust-mode-hook (kbd "C-c C-c r") 'rust-run)
-     ;; (define-key rust-mode-hook (kbd "C-c C-c l") 'rust-run-clippy)y
+     ;; (define-key rust-mode-hook (kbd "C-c C-c l") 'rust-run-clippy)
    #+end_src
 
 ** Haskell
@@ -857,7 +860,8 @@ the functionality.
    #+end_src
 
 ** Prolog
-
+Prolog is a programming language that is rooted in classical logic. If
+a good tutorial is needed, I will have to suggest: [[https://www.metalevel.at/prolog][Prolog Tutorial]].
    #+begin_src emacs-lisp
      (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
      (setq prolog-eletric-if-then-else-flag t)
@@ -880,19 +884,27 @@ the functionality.
      (global-set-key "\C-cq" 'prolog-insert-comment-block)
    #+end_src
 
+
+Specific configuration for ciao Prolog:
+#+begin_src emacs-lisp
+  (if (file-exists-p
+       "~/.ciaoroot/v1.22.0-m1/ciao_emacs/elisp/ciao-site-file.el")
+      (load-file
+       "~/.ciaoroot/v1.22.0-m1/ciao_emacs/elisp/ciao-site-file.el"))
+#+end_src
 ** Freest
    #+begin_src emacs-lisp
-     (add-to-list 'load-path "~/.emacs.d/freest-mode/")
-     (require 'freest-mode)
-     ;; This automatically chooses freest-mode when editing FreeST files.
-     (add-to-list 'auto-mode-alist '("\\.fst\\'" . freest2-mode))
-     (load "~/.emacs.d/freest-mode/ob-freest.el")
+     ;; (add-to-list 'load-path "~/.emacs.d/freest-mode/")
+     ;; (require 'freest-mode)
+     ;; ;; This automatically chooses freest-mode when editing FreeST files.
+     ;; (add-to-list 'auto-mode-alist '("\\.fst\\'" . freest2-mode))
+     ;; (load "~/.emacs.d/freest-mode/ob-freest.el")
    #+end_src
 
 ** Agda
    #+begin_src emacs-lisp
-     ;; (load-file (let ((coding-system-for-read 'utf-8))
-     ;; 		(shell-command-to-string "agda-mode locate")))
+     (load-file (let ((coding-system-for-read 'utf-8))
+		  (shell-command-to-string "agda-mode locate")))
    #+end_src
 * All Org Related
 ** Org Bullets
@@ -913,6 +925,9 @@ the functionality.
 	       (sequence "∞ WAITING(w)" "|"  "✘ CANCELED(c)")
 	       (sequence "∞ READING(r)" "∞ VIEWING(v)" "𝅘𝅥𝅮 LISTENING(l)" "░ WATCHLIST(a)"
 			 "|"  "◤ FINISHED(f)")))
+       (setq org-todo-keyword-faces
+	     '(("✔ DONE" . (:foreground "gray"))))
+       
        :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
    #+end_src
 
@@ -1048,15 +1063,13 @@ the functionality.
     The basic set up for org agenda that works with me. Also the files might change from time to time, but
     generally speaking I don't like to have too many files.
     #+begin_src emacs-lisp
-      (setq org-agenda-files '("~/Org/IMDEA.org"
-			       "~/Org/University.org"
+      (setq org-agenda-files '("~/Org/University.org"
 			       "~/Org/Personal.org"
       ;;			 "~/Org/Birthdays.org"
 			       ))
       (global-set-key (kbd "C-c a") 'org-agenda)
       (setq org-refile-targets
 	    '(("~/Org/University.org" :maxlevel . 2)
-	      ("~/Org/IMDEA.org" :maxlevel . 2)
 	      ("~/Org/Personal.org" :maxlevel . 1)))
     #+end_src
 
@@ -1082,6 +1095,13 @@ the functionality.
    #+begin_src emacs-lisp
      (local-set-key "\M-\C-g" 'org-plot/gnuplot)
    #+end_src
+
+** Org Latex Fragments
+Changing the scale of the latex fragment images inserted in org files.
+
+#+begin_src emacs-lisp
+  (plist-put org-format-latex-options :scale 1.7)
+#+end_src
 
 ** Blog
    #+begin_src emacs-lisp
