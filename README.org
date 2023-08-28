@@ -85,6 +85,7 @@ the functionality.
 	       ("epsilon" . "ɛ")
 	       ("->" . 8594)
 	       ("<-" . 8592)
+	       (":-" . 8592)
 	       ("Wking" . 9812)
 	       ("WQueen" . 9813)
 	       ("WRook" . 9814)
@@ -193,9 +194,18 @@ the functionality.
      (put 'dired-find-alternate-file 'disabled nil)
    #+end_src
 
+* Social Networks+
+With the situation with Twitter and Reddit, I have a strong reason to
+move myself into more federated social networks.
+
+** Mastodon
+#+begin_src emacs-lisp
+      (setq mastodon-instance-url "https://masto.pt/"
+	    mastodon-active-user "@gafanhoto")
+#+end_src
+
 * Searching & Menus
 ** Ido
-
    Ido is a lot better for searching buffers, and files. It's clearly better than the default one that comes
    with emacs.
    
@@ -211,7 +221,6 @@ the functionality.
    #+END_SRC
    
 ** Smex
-
    It's basically the same as Ido but for M-x commands and functions.
 
    #+BEGIN_SRC emacs-lisp
@@ -224,8 +233,7 @@ the functionality.
    #+END_SRC
 
 ** Which Key
-
-   It's helpful to know what key combos are available whenever I'm typing something!
+It's helpful to know what key combos are available whenever I'm typing something!
 
    #+BEGIN_SRC emacs-lisp
      (use-package which-key
@@ -235,7 +243,7 @@ the functionality.
    #+END_SRC
 
 ** Deft
-   Used mainly for the roam directory!
+Used mainly for the roam directory!
    #+begin_src emacs-lisp
      (use-package deft
        :after org
@@ -250,7 +258,6 @@ the functionality.
 
 * General utilities
 ** PDF Tools
-
    The best pdf reader for emacs in my opinion. Possibly the best pdf reader for Linux as well,
    although I really enjoy zathura.
 
@@ -708,7 +715,7 @@ the functionality.
 
    #+begin_src emacs-lisp
      (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-     (add-hook 'haskell-mode-hook #'hindent-mode)
+     (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
      (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 
      ;; Navigate to import section.
@@ -735,6 +742,14 @@ the functionality.
 				       (define-key haskell-mode-map (kbd "C-c C-n c") 'haskell-process-cabal)))
    #+end_src
 
+#+begin_src emacs-lisp
+  (defun ob-haskell-formatter (strr)
+    (format "%s" (replace-regexp-in-string
+		  (rx line-start
+		      (+ (| alphanumeric blank "." "|" ">")))
+		  "" (format "%s" strr))))
+#+end_src
+
 ** SPARQL
 
    Not really a programming language. SPARQL is more a query language for graph like databases.
@@ -749,7 +764,8 @@ the functionality.
        )
    #+end_src
 ** Common Lisp
-   The Ros environment is probably the easiest way to have lisp on my system without messing things.
+The Ros environment is probably the easiest way to have lisp on my
+system without messing things.
    #+begin_src emacs-lisp
      (setq inferior-lisp-program "ros run")
      (add-hook 'lisp-mode-hook #'smartparens-mode)
@@ -844,11 +860,11 @@ the functionality.
    #+begin_src emacs-lisp
      (use-package js2-mode
        :ensure t
-       :mode "\\.js\\'"
+       :mode (("\\.js\\'" . js2-mode)
+	      ("\\.cjs\\'" . js2-mode))
        :hook (js2-mode . lsp-deferred))
      (add-hook 'javascript-mode #'js2-mode)
    #+end_src
-
 ** Elm
    Elm is a functional language that compiles to JavaScript.
    Elm tutorial: [[https://guide.elm-lang.org/][An Introduction to Elm]]
@@ -862,36 +878,80 @@ the functionality.
 ** Prolog
 Prolog is a programming language that is rooted in classical logic. If
 a good tutorial is needed, I will have to suggest: [[https://www.metalevel.at/prolog][Prolog Tutorial]].
-   #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
-     (setq prolog-eletric-if-then-else-flag t)
+The majority of the configuration here comes from [[https://www.metalevel.at/pceprolog/][this]].
 
-     (global-set-key (kbd "C-c l")
-		     (lambda ()
-		       (interactive)
-		       (insert ":- use_module(library()).")
-		       (forward-char -3)))
+#+begin_src emacs-lisp
+  (load "~/.emacs.d/prolog.el")
+  (load "~/Programs/scryer-prolog/src/scryer-prolog-0.9.1/tools/showterm.el")
+  (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
+#+end_src
 
-     (defun prolog-insert-comment-block ()
-       "Insert a PceEmacs-style comment block like /* - - ... - - */ "
-       (interactive)
-       (let ((dashes "-"))
+PceEmacs-style behaviour and use the mode with SWI-Prolog:
+#+begin_src emacs-lisp
+  (setq prolog-system 'swi
+	prolog-program-switches '((swi ("-G128M"
+					"-T128M"
+					"-L128M"
+					"-O"))
+				  (t nil))
+	prolog-electric-if-then-else-flag t)
+#+end_src
+
+Nice comment blocks as in PceEmacs:
+#+begin_src emacs-lisp
+  (defun prolog-insert-comment-block ()
+    "Insert a PceEmacs-style comment block like /* - - ... - - */ "
+    (interactive)
+    (let ((dashes "-"))
 	 (dotimes (_ 36) (setq dashes (concat "- " dashes)))
 	 (insert (format "/* %s\n\n%s */" dashes dashes))
 	 (forward-line -1)
 	 (indent-for-tab-command)))
 
-     (global-set-key "\C-cq" 'prolog-insert-comment-block)
-   #+end_src
-
-
-Specific configuration for ciao Prolog:
-#+begin_src emacs-lisp
-  (if (file-exists-p
-       "~/.ciaoroot/v1.22.0-m1/ciao_emacs/elisp/ciao-site-file.el")
-      (load-file
-       "~/.ciaoroot/v1.22.0-m1/ciao_emacs/elisp/ciao-site-file.el"))
+  (global-set-key "\C-cq" 'prolog-insert-comment-block)
 #+end_src
+
+Insert library imports.
+#+begin_src emacs-lisp
+  (global-set-key "\C-cl" (lambda ()
+			    (interactive)
+			    (insert ":- use_module(library()).")
+			    (forward-char -3)))
+#+end_src
+
+Syntax checking:
+#+begin_src emacs-lisp
+  (add-hook 'prolog-mode-hook
+	    (lambda ()
+	      (require 'flymake)
+	      (make-local-variable 'flymake-allowed-file-name-masks)
+	      (make-local-variable 'flymake-err-line-patterns)
+	      (setq flymake-err-line-patterns
+		    '(("ERROR: (?\\(.*?\\):\\([0-9]+\\)" 1 2)
+		      ("Warning: (\\(.*\\):\\([0-9]+\\)" 1 2)))
+	      (setq flymake-allowed-file-name-masks
+		    '(("\\.pl\\'" flymake-prolog-init)))
+	      (flymake-mode 1)))
+
+  (defun flymake-prolog-init ()
+    (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+			 'flymake-create-temp-inplace))
+	   (local-file  (file-relative-name
+			 temp-file
+			 (file-name-directory buffer-file-name))))
+      (list "swipl" (list "-q" "-t" "halt" "-s " local-file))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (add-hook 'prolog-mode-hook 'add-pretty-lambda)
+#+end_src
+
+ediprolog to evaluate prolog on the buffer!
+#+begin_src emacs-lisp
+  (global-set-key [f10] 'ediprolog-dwim)
+  (global-set-key [f12] 'showterm)
+#+end_src
+
 ** Freest
    #+begin_src emacs-lisp
      ;; (add-to-list 'load-path "~/.emacs.d/freest-mode/")
@@ -955,8 +1015,10 @@ Specific configuration for ciao Prolog:
      (add-to-list 'org-structure-template-alist '("pyp" . "src python :session :results output :exports both"))
      (add-to-list 'org-structure-template-alist '("cp" . "src C"))
      (add-to-list 'org-structure-template-alist '("cl" . "src lisp"))
-     (add-to-list 'org-structure-template-alist '("hk" . "src haskell"))
+     (add-to-list 'org-structure-template-alist '("hk" . "src haskell :results value :exports both"))
      (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
+     (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
+     (add-to-list 'org-structure-template-alist '("elm" . "src elm :exports both"))
    #+END_SRC
 
 ** Org Babel
@@ -973,13 +1035,12 @@ Specific configuration for ciao Prolog:
 	(lisp . t)
 	(shell . t)
 	(haskell . t)
-	(js . t)))
+	(js . t)
+	(elm . t)))
      ;; (freest . t)
      ;; (prolog . t)
 
    #+end_src
-
-   #+RESULTS:
 
 ** Org Roam
    

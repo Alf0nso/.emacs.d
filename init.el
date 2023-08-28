@@ -53,6 +53,8 @@
  '(diredp-dir-name t t)
  '(diredp-file-name t t)
  '(diredp-file-suffix t t)
+ '(ediprolog-program "swipl")
+ '(ediprolog-system 'swi)
  '(ein:output-area-inlined-images t)
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
@@ -64,7 +66,7 @@
    '(:foreground default :background default :scale 1.7 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
 		 ("begin" "$1" "$" "$$" "\\(" "\\[")))
  '(package-selected-packages
-   '(julia-repl julia-mode auto-complete-c-headers auto-complete-clang auto-complete-clang-async haskell-emacs lua-mode erlang ocamlformat racket-mode calfw-gcal calfw-cal dante liquid-types flycheck-liquidhs company-coq proof-general boogie-friends vterm org-roam multiple-cursors ox-gfm hindent ghc-imported-from retrie ein go-imports go-snippets go-mode slime projectile page-break-lines pdf-tools helm-spotify tide lsp-grammarly php-mode elm-mode gnuplot-mode gnuplot calfw calfw-org rustic racer rust-mode magit lsp-jedi peep-dired dired-hacks-utils olivetti org-roam-bibtex lsp-ivy lsp-ui ob-deno ac-sly dashboard easy-hugo ox-hugo ob-prolog js2-mode typescript-mode pyvenv docker dockerfile-mode math-preview yascroll smartparens deft org-roam-server yasnippet-snippets java-snippets sly sly-quicklisp common-lisp-snippets sparql-mode lsp-haskell haskell-snippets ivy lsp-mode haskell-mode all-the-icons doom-themes afternoon-theme treemacs-icons-dired dired+ quelpa org-bullets dired-subtree company comapny-mode comapny yasnippet auto-complete which-key smex use-package))
+   '(htmlize mastodon ob-elm django-snippets django-mode ediprolog julia-repl julia-mode auto-complete-c-headers auto-complete-clang auto-complete-clang-async haskell-emacs lua-mode erlang ocamlformat racket-mode calfw-gcal calfw-cal dante liquid-types flycheck-liquidhs company-coq proof-general boogie-friends vterm org-roam ox-gfm hindent ghc-imported-from retrie ein go-imports go-snippets go-mode slime projectile page-break-lines pdf-tools helm-spotify tide lsp-grammarly php-mode elm-mode gnuplot-mode gnuplot calfw calfw-org rustic racer rust-mode magit lsp-jedi peep-dired dired-hacks-utils olivetti org-roam-bibtex lsp-ivy lsp-ui ob-deno ac-sly dashboard easy-hugo ox-hugo ob-prolog js2-mode typescript-mode pyvenv docker dockerfile-mode math-preview yascroll smartparens deft org-roam-server yasnippet-snippets java-snippets sly sly-quicklisp common-lisp-snippets sparql-mode lsp-haskell haskell-snippets ivy lsp-mode haskell-mode all-the-icons doom-themes afternoon-theme treemacs-icons-dired dired+ quelpa org-bullets dired-subtree company comapny-mode comapny yasnippet auto-complete which-key smex use-package))
  '(safe-local-variable-values '((eval turn-off-auto-fill)))
  '(warning-suppress-types
    '((comp)
