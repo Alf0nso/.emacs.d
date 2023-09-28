@@ -868,6 +868,18 @@ ediprolog to evaluate prolog on the buffer!
      (load-file (let ((coding-system-for-read 'utf-8))
 		  (shell-command-to-string "agda-mode locate")))
    #+end_src
+** Sclang
+#+begin_src emacs-lisp
+  ;;(add-to-list 'load-path "  ~/.local/share/SuperCollider/downloaded-quarks/scel/el")
+  (require 'sclang)
+#+end_src
+** Java
+Using the jdee server for java development while I am obligated to use
+java on my work. (save me please).
+#+begin_src emacs-lisp
+  (custom-set-variables
+   '(jdee-server-dir "/Users/you/.emacs.d/jdee-server"))
+#+end_src
 * All Org Related
 ** Org Bullets
 Org mode by default has some pretty aesthetics, but I do find it
@@ -990,17 +1002,15 @@ of language.
    #+end_src
 
 ** Org Agenda
-Org Agenda is very good for getting things organised.   
-
+Org Agenda is very good for getting things organised.
 *** Org Agenda basic set up
 The basic set up for org agenda that works with me. Also the files
 might change from time to time, but generally speaking I don't like to
 have too many files.
     #+begin_src emacs-lisp
-      (setq org-agenda-files '("~/Org/University.org"
-			       "~/Org/Personal.org"
-      ;;			 "~/Org/Birthdays.org"
-			       ))
+      (setq org-agenda-files '("~/Org/Personal.org"
+			       "~/Org/DevPT.org"
+			       "~/Org/Professional.org" ))
       (global-set-key (kbd "C-c a") 'org-agenda)
       (setq org-refile-targets
 	    '(("~/Org/University.org" :maxlevel . 2)
