@@ -994,7 +994,8 @@ have too many files.
     #+begin_src emacs-lisp
       (setq org-agenda-files '("~/Org/Personal.org"
 			       "~/Org/DevPT.org"
-			       "~/Org/Professional.org" ))
+			       "~/Org/Axonio.org"
+			       "~/Org/BSC.org"))
       (global-set-key (kbd "C-c a") 'org-agenda)
       (setq org-refile-targets
 	    '(("~/Org/University.org" :maxlevel . 2)
