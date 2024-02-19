@@ -296,13 +296,6 @@ to the eye, I enjoy to couple it with subtree.
      (customize-set-variable 'ein:output-area-inlined-images t)
    #+end_src
 
-** Docker
-   #+begin_src emacs-lisp
-     (use-package docker
-       :ensure t
-       :bind ("C-c d" . docker))
-   #+end_src
-
 ** Dashboard
    #+begin_src emacs-lisp
      (use-package dashboard
