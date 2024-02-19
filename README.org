@@ -457,16 +457,9 @@ to the eye, I enjoy to couple it with subtree.
 	   (blink-cursor-mode -1))))
    #+end_src
 
-** Calendar Framework
-   Better calendar views compared to the default emacs ones.
-   #+begin_src emacs-lisp
-     (use-package calfw-org
-       :after calfw)
-     (require 'calfw)
-   #+end_src
-
 * Shell & Terminals
 ** Eshell
+Eshell is a pretty nice terminal. But it needs some tweaks to make it a little bit more comfortable.
    #+begin_src emacs-lisp
      (setq eshell-prompt-regexp "^[^αλ\n]*[αλ] ")
      (setq eshell-prompt-function
