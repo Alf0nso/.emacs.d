@@ -1,6 +1,7 @@
-#+STARTUP: fold
+#+title: Personal
+#+startup: fold latexpreview inlineimages
 
-* Startup & Low Level
+* Startup
 ** Native Compilation
    This section exists because I am making use of an emacs version with
    native compilation. With this I mean that lisp is being compiled to
@@ -12,6 +13,32 @@
      (setq comp-async-report-warnings-errors nil)
    #+end_src
 
+** Changing default resource usage
+#+begin_src emacs-lisp
+  (setq max-specpdl-size 13000)
+  (setq max-lisp-eval-depth 1000000)
+  (setq gc-cons-threshold 100000000)
+#+end_src
+
+** Straight
+#+begin_src emacs-lisp
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+	 (expand-file-name
+	  "straight/repos/straight.el/bootstrap.el"
+	  (or (bound-and-true-p straight-base-dir)
+	      user-emacs-directory)))
+	(bootstrap-version 7))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+	  (url-retrieve-synchronously
+	   "https://radian-software.github.io/straight.el/install.el"
+	   'silent 'inhibit-cookies)
+	(goto-char (point-max))
+	(eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+#+end_src
+
 * Main Visual Changes
 ** Themes
    #+begin_src emacs-lisp
@@ -21,7 +48,12 @@
        (load-theme 'doom-one t)
        (doom-themes-org-config))
    #+end_src
-   
+
+#+begin_src emacs-lisp
+  (defface org-block-background '((t (:background "#282c34")))
+    "Face used for the source block background.")
+#+end_src
+
 ** Removing Bars, etc...
    Removing Things that are not needed   
    #+BEGIN_SRC emacs-lisp
@@ -256,6 +288,7 @@ reader for Linux as well, although I really enjoy zathura.
        :custom (pdf-annot-activate-created-annotations
 		t "automatically annotate highlights"))
    #+END_SRC
+
 ** Subtree
 I do enjoy to use dired+ as my file manager. To make it more pleasing
 to the eye, I enjoy to couple it with subtree.
@@ -268,6 +301,7 @@ to the eye, I enjoy to couple it with subtree.
 		   ("<tab>" . dired-subtree-toggle)
 		   ("<backtab>" . dired-subtree-cycle)))
    #+END_SRC
+
 ** Treemacs Icons
    #+BEGIN_SRC emacs-lisp
      (use-package treemacs-icons-dired
@@ -987,6 +1021,7 @@ of language.
 
 ** Org Agenda
 Org Agenda is very good for getting things organised.
+
 *** Org Agenda basic set up
 The basic set up for org agenda that works with me. Also the files
 might change from time to time, but generally speaking I don't like to
