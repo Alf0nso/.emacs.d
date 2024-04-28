@@ -1,2 +1,11 @@
 auto-save-list/
 org-roam.db
+tramp
+straight/
+transient/
+session.*
+*.elc
+elpa/
+eln-cache/
+bookmarks
+.lsp-session-v1
