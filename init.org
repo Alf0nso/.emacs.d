@@ -482,8 +482,13 @@ Just some lorem ipsum in your buffer
 #+begin_src emacs-lisp
   ;; Make sure that cmake, libtool, libtool-bin
   (use-package vterm
-      :ensure t)
+    :ensure t
+    :config
+    (setopt vterm-tramp-shells '(("ssh" "/bin/bash")
+				 ("docker" "/bin/sh")))
+    )
 #+end_src
+
 *** eshell
 Eshell is a pretty nice terminal. But it needs some tweaks to make it a little bit more comfortable.
    #+begin_src emacs-lisp
