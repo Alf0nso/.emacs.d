@@ -813,6 +813,12 @@ developed by Stefan Bruda:
     (setq prolog-electric-if-then-else-flag t))
 #+end_src
 
+#+begin_src emacs-lisp
+  (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+				  ("\\.pro$" . prolog-mode))
+				auto-mode-alist))
+#+end_src
+
 Using SWI as the prolog system, at some point I would like to also be
 able to use scryer, but for now swi is probably one of the best options.
 #+begin_src emacs-lisp

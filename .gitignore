@@ -10,3 +10,6 @@ eln-cache/
 bookmarks
 .lsp-session-v1
 recentf
+request/
+persist/
+init.el
