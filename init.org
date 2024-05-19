@@ -817,6 +817,7 @@ I use Haskell mode to program, It is pretty well [[https://haskell.github.io/has
        :config
        (custom-set-variables
 	'(haskell-tags-on-save t)
+	'(tags-revert-without-query 1)
 	'(haskell-process-suggest-remove-import-lines t)
 	'(haskell-process-auto-import-loaded-modules t)
 	'(haskell-process-log t)
