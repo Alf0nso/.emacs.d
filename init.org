@@ -866,9 +866,11 @@ convert any emacs buffer into a literate programming buffer.
     :ensure t
     :config
     ;; Scryer prolog is a pretty nice prolog system
-    (when (executable-find "scryer-prolog")
-      (setq ediprolog-system 'scryer)
-      (setq ediprolog-program (executable-find "scryer-prolog")))
+    (setq ediprolog-system 'swi)
+    (setq ediprolog-program (executable-find "swipl"))
+    ;; (when (executable-find "scryer-prolog")
+    ;;   (setq ediprolog-system 'scryer)
+    ;;   (setq ediprolog-program (executable-find "scryer-prolog")))
     (global-set-key [f10] 'ediprolog-dwim))
 #+end_src
 
