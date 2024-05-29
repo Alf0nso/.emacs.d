@@ -788,6 +788,12 @@ doing presentations with org and reveal.js
        (setq lsp-ui-sideline-delay 0.05))
    #+end_src
 
+** cmake
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+    :ensure t)
+#+end_src
+
 ** Lean4
 #+begin_src emacs-lisp
   (use-package lean4-mode
@@ -798,6 +804,12 @@ doing presentations with org and reveal.js
 	       :repo "leanprover/lean4-mode"
 	       :files ("*.el" "data"))
     :commands (lean4-mode))
+#+end_src
+
+** Rust
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :ensure t)
 #+end_src
 
 ** Haskell
@@ -828,6 +840,12 @@ I use Haskell mode to program, It is pretty well [[https://haskell.github.io/has
 	 'haskell-process-load-or-reload)
        )
    #+end_src
+
+** Racket
+#+begin_src emacs-lisp
+  (use-package racket-mode
+    :ensure t)
+#+end_src
 
 ** Prolog
 Prolog is a very interesting programming language, at least for me. A
