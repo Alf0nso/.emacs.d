@@ -510,7 +510,7 @@ Just some lorem ipsum in your buffer
   (use-package vterm
     :ensure t
     :config
-    (setopt vterm-tramp-shells '(("ssh" "/bin/bash")
+    (setopt vterm-tramp-shells '(("ssh"    "/bin/bash")
 				 ("sshx11" "/bin/bash")
 				 ("docker" "/bin/sh")))
     )
