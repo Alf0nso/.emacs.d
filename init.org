@@ -314,7 +314,8 @@ Olivetti centers text when editing.
     :defer t
     :bind (:map custom-bindings-map ("C-c o" . olivetti-mode))
     :config
-    (setq olivetti-style t))
+    (setq olivetti-style t)
+    (olivetti-set-width 80))
 #+end_src
 
 ** Writer for writing
