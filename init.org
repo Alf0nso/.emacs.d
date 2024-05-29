@@ -344,7 +344,6 @@ In case you do not know the reason for such an initial
     :ensure t
     :config
     (dashboard-setup-startup-hook)
-    (setq dashboard-set-navigator t)
     (setq dashboard-center-content t)
     (setq dashboard-banner-logo-title "G A F A N H O T O")
     (setq dashboard-startup-banner "~/.emacs.d/grasshopper.png")
