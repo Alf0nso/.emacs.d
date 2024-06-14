@@ -3,6 +3,9 @@
 #+PROPERTY: header-args :tangle yes
 #+STARTUP: overview inlineimages
 
+#+CAPTION: Grasshopper's emacs showcase
+[[./emacs.png]]
+
 * Meta
 At some point I realized my Emacs configuration was not very portable. 
 Every time I switch systems I always have to debug Emacs and install
