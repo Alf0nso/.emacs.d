@@ -921,6 +921,12 @@ Python mode for python files
        :ensure t)
    #+end_src
 
+** R
+#+begin_src emacs-lisp
+  (use-package ess
+    :ensure t)
+#+end_src
+
 ** Typescript
    #+begin_src emacs-lisp
      (use-package typescript-mode
