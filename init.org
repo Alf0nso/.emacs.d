@@ -7,11 +7,19 @@
 [[./emacs.png]]
 
 * Meta
-At some point I realized my Emacs configuration was not very portable. 
-Every time I switch systems I always have to debug Emacs and install
-missing packages. It is indeed my fault, by large my configuration 
-is just pieces of code I found on the internet and more or less glued 
-them together.
+I tend to have multiple machines for different tasks: working,
+personal, etc... Every time I switch systems I always have to debug
+Emacs and install missing packages. This initial pain and frustration
+with starting my life with a new system is my fault. My Emacs
+configuration has been for a long time just an amalgamation of pieces
+of code I found on the internet... When I started working on the
+[[https://www.bsc.es/][Barcelona Supercomputing Center]] I said "no" to myself and decided to
+make a portable Emacs configuration. Inspired by the likes of:
+- [[https://github.com/rougier][Nicolas P. Rougier]] (N A N O Emacs)
+- [[https://github.com/MatthewZMD/.emacs.d?tab=readme-ov-file][Matthew Zeng]] (M-EMACS)
+- [[https://github.com/snackon/Witchmacs][Snackon]] (Witchmacs)
+- [[https://sqrtminusone.xyz/configs/emacs/][Pavel Korytov]] (SqrtMinusOne)
+- [[https://github.com/SophieBosio/.emacs.d][Sophie Bosio]]
 
 ** Before anything
 #+begin_src emacs-lisp :tangle no
