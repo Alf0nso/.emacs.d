@@ -858,6 +858,23 @@ I use Haskell mode to program, It is pretty well [[https://haskell.github.io/has
        )
    #+end_src
 
+** Ocaml
+I use haskell mainly, but I believe it should be interesting to also be
+proficient in ocaml.
+#+begin_src emacs-lisp
+  (use-package tuareg
+    :ensure t
+    :config
+    (add-to-list 'exec-path "~/.opam/default/bin"))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package utop
+    :ensure t
+    :config
+    (add-hook 'tuareg-mode-hook #'utop-minor-mode))
+#+end_src
+
 ** Racket
 #+begin_src emacs-lisp
   (use-package racket-mode
