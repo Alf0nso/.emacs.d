@@ -868,6 +868,7 @@ proficient in ocaml.
     (add-to-list 'exec-path "~/.opam/default/bin"))
 #+end_src
 
+Some extra configuration is needed to make this work properly...
 #+begin_src emacs-lisp
   (use-package utop
     :ensure t
