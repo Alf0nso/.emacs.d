@@ -381,6 +381,13 @@ In case you do not know the reason for such an initial
     (define-key dired-mode-map [tab] 'dired-subtree-toggle))
 #+END_SRC
 
+** w3m
+A terminal based document reader and browser.
+#+begin_src emacs-lisp
+  (use-package w3m
+    :ensure t)
+#+end_src
+
 * Completion
 ** Vertico as completion UI
 #+begin_src emacs-lisp
