@@ -880,7 +880,8 @@ Some extra configuration is needed to make this work properly...
   (use-package utop
     :ensure t
     :config
-    (add-hook 'tuareg-mode-hook #'utop-minor-mode))
+    (add-hook 'tuareg-mode-hook #'utop-minor-mode)
+    (setq utop-command "opam config exec -- dune utop . -- -emacs"))
 #+end_src
 
 ** Racket
