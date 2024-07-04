@@ -939,16 +939,14 @@ Python mode for python files
    #+begin_src emacs-lisp
      (use-package python
        :interpreter ("python3" . python-mode)
-       :defer t
+       :ensure t
        :config
        (setq python-shell-interpreter "python3"))
    #+end_src
 
    #+begin_src emacs-lisp
      (use-package pyvenv
-       :defer t
-       :config
-       (setenv "WORKON_HOME" "~/py_home"))
+       :ensure t)
    #+end_src
 
    #+begin_src emacs-lisp
