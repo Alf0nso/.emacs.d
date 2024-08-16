@@ -1,7 +1,7 @@
 #+TITLE: Grasshopper's Emacs configuration file
 #+AUTHOR: Afonso Rafael (gafanhoto)
 #+PROPERTY: header-args :tangle yes
-#+STARTUP: overview inlineimages
+#+STARTUP: overview
 
 #+CAPTION: Grasshopper's emacs showcase
 [[./emacs.png]]
@@ -642,6 +642,7 @@ has a couple of packages for spelling and syntax.
 	    ("c" . "src C")
 	    ("cl" . "src lisp")
 	    ("hs" . "src haskell :results value :exports both")
+	    ("pl" . "src prolog :results value :exports both")
 	    ("js" . "src js :results output")
 	    ))
 
@@ -653,7 +654,8 @@ has a couple of packages for spelling and syntax.
        (python     . t)
        (C          . t)
        (haskell    . t)
-       (js         . t)))
+       (js         . t)
+       (prolog     . t)))
     )
 #+end_src
 
@@ -894,13 +896,11 @@ Some extra configuration is needed to make this work properly...
 Prolog is a very interesting programming language, at least for me. A
 very good document to know more about this system is:
 [[https://www.metalevel.at/prolog][The Power Of Prolog]] written and maintained by [[https://www.metalevel.at/][Markus Triska]].
-Instead of using the common Prolog mode available I prefer this one
-developed by Stefan Bruda:
-#+begin_src emacs-lisp
-  (when (file-exists-p "~/.emacs.d/elisp/prolog.el")
-    (load "~/.emacs.d/elisp/prolog.el")
-    (setq prolog-electric-if-then-else-flag t))
-#+end_src
+Previously I was using an emacs prolog mode suggested by Markus and
+developed by Stefan Bruda. This mode stopped working for me on the
+second week of august of 2024. Since it is an old major mode, and I
+don't believe it is or will be maintained I am switching back to the
+default prolog major mode.
 
 #+begin_src emacs-lisp
   (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
@@ -914,9 +914,9 @@ able to use scryer, but for now swi is probably one of the best options.
   (when (executable-find "swipl")
     (message "SWI-Prolog exists on path, using it!")
     (setq prolog-system 'swi
-	  prolog-program-switches
-	  '((swi ("-G128M" "-T128M" "-L128M" "-O"))
-	    (t nil))))
+	    prolog-program-switches
+	    '((swi ("-G128M" "-T128M" "-L128M" "-O"))
+	      (t nil))))
 #+end_src
 
 ediprolog for prolog evaluation on all buffers! It is quite useful to
@@ -940,6 +940,11 @@ show term
   (when (file-exists-p "~/scryer-prolog/tools/showterm.el")
     (load "~/scryer-prolog/tools/showterm.el")
     (global-set-key [f12] 'showterm))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package ob-prolog
+    :ensure t)
 #+end_src
 
 ** Python
