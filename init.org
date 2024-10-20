@@ -587,10 +587,32 @@ Eshell is a pretty nice terminal. But it needs some tweaks to make it a little b
     :defer t)
 #+end_src
 
+** Con and job editing
+Sometimes I do edit the cron tab. It is helpful to make some jobs run
+during the night.
+#+begin_src emacs-lisp
+  (defun crontab-e ()
+      "Run `crontab -e' in a emacs buffer."
+      (interactive)
+      (with-editor-async-shell-command "crontab -e"))
+#+end_src
+
 ** IRC in Emacs is ERC
 #+begin_src emacs-lisp
   (use-package erc
     :ensure t)
+#+end_src
+
+** Emacs bibliography data base
+bib files are not easy to manage on their own, not because of
+complexity, but because
+
+#+begin_src emacs-lisp
+  (use-package ebib
+    :ensure t
+    :config
+    (setq ebib-preload-bib-files
+	(directory-files "~/Org/bib" t "\\.bib$")))
 #+end_src
 
 * Spelling
