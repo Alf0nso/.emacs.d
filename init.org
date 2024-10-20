@@ -346,7 +346,7 @@ In case you do not know the reason for such an initial
    #+begin_src emacs-lisp
      ;; https://www.youtube.com/watch?v=NfjsLmya1PI
      (setq initial-scratch-message 
-	   ";; Present Day, Present Time...\n")
+	   ";; Present Day, Present Time... 🯅 🯆 🯇 🯈\n")
    #+end_src
 
 ** Dash board
@@ -639,7 +639,7 @@ has a couple of packages for spelling and syntax.
 	    ("py" . "src python :results output :exports both")
 	    ("pys" . 
 	    "src python :session :results output :exports both")
-	    ("c" . "src C")
+	    ("C" . "src C")
 	    ("cl" . "src lisp")
 	    ("hs" . "src haskell :results value :exports both")
 	    ("pl" . "src prolog :results value :exports both")
