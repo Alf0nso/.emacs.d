@@ -605,14 +605,22 @@ during the night.
 
 ** Emacs bibliography data base
 bib files are not easy to manage on their own, not because of
-complexity, but because
+complexity, but because editing them one by one can become quite a
+tedious task. For that reason I started trying to use *ebib* as my
+bibliography data base.
 
 #+begin_src emacs-lisp
   (use-package ebib
     :ensure t
     :config
     (setq ebib-preload-bib-files
-	(directory-files "~/Org/bib" t "\\.bib$")))
+	  (directory-files "~/Org/bib" t "\\.bib$"))
+#+end_src
+
+It is helpful to set this variable to nil, otherwise emacs will attempt to use an external program called *xpdf* to open the file associated with your paper. If you set it to nil it will open all files with the
+default emacs viewer.
+#+begin_src emacs-lisp
+  (setq ebib-file-associations nil))
 #+end_src
 
 * Spelling
