@@ -511,6 +511,7 @@ Code snippets to program and other predefined blocks
     :ensure t
     :config
     (pdf-tools-install)
+    (add-hook 'pdf-view-mode-hook #'pdf-view-themed-minor-mode)
     :custom (pdf-annot-activate-created-annotations
 		t "automatically annotate highlights"))
 #+END_SRC
