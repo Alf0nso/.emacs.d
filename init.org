@@ -735,7 +735,8 @@ to use other bullet icons.
        (setq org-bullets-bullet-list
 	     '("ꖜ" "•" "❉" "⨿" "ᖷ"))
        (setq org-todo-keywords 
-	     '((sequence "☛ TODO(t)" "➤ NEXT(n)" "|" "✔ DONE(d)")
+	     '((sequence "☛ TODO(t)" "➤ NEXT(n)" "⚗ MEETING(m)"
+			 "|" "✔ DONE(d)")
 	       (sequence "∞ WAITING(w)" "|"  "✘ CANCELED(c)")
 	       (sequence "∞ READING(r)"
 			 "∞ VIEWING(v)"
