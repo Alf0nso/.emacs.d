@@ -509,12 +509,11 @@ Code snippets to program and other predefined blocks
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
     :ensure t
+    :custom (pdf-annot-activate-created-annotations
+	     t "automatically annotate highlights")
     :config
     (pdf-tools-install)
-    (add-hook 'pdf-view-mode-hook #'pdf-view-themed-minor-mode)
-    :bind (("C-c d" . pdf-view-themed-minor-mode))
-    :custom (pdf-annot-activate-created-annotations
-		t "automatically annotate highlights"))
+    (add-hook 'pdf-view-mode-hook #'pdf-view-themed-minor-mode))
 #+END_SRC
 
 ** Lorem ipsum
