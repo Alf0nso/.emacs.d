@@ -624,6 +624,20 @@ default emacs viewer.
   (setq ebib-file-associations nil))
 #+end_src
 
+** Screen saver
+#+begin_src emacs-lisp
+  (defun lock-screen ()
+    "Lock screen using (zone) and xtrlock
+  calls M-x zone on all frames and runs xtrlock"
+    (interactive)
+    (save-excursion
+      (set-process-sentinel
+       (start-process "xtrlock" nil "xtrlock")
+       #'(lambda (process event)
+	  (zone-leave-me-alone)))
+      (zone-when-idle 1)))
+#+end_src
+
 * Spelling
 I am horrible at natural languages, and since I have to use 
 them daily to communicate, I desperately require tools to aid me. Emacs 
