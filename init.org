@@ -667,7 +667,7 @@ has a couple of packages for spelling and syntax.
   (use-package org
     :ensure nil
     :defer t
-    :hook (org-mode . olivetti-mode)
+    :hook (org-mode . writeroom-mode)
     :config
     ;; Start up any org file with pretty latex images
     (setq org-startup-with-latex-preview t)
