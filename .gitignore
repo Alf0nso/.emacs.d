@@ -15,3 +15,5 @@ persist/
 racket-mode/
 snippets/
 .org-id-locations
+eshell/
+image-dired/
