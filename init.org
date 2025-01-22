@@ -638,6 +638,15 @@ default emacs viewer.
       (zone-when-idle 1)))
 #+end_src
 
+** Emacs vimdiff, kinda...
+vimdiff is a really good tool to diff two files and observe what changed.
+Emacs by default can create diffs, but it does not create a side by side
+diff like vimdiff does.
+#+begin_src emacs-lisp
+  (use-package vdiff
+    :ensure t)
+#+end_src
+
 * Spelling
 I am horrible at natural languages, and since I have to use 
 them daily to communicate, I desperately require tools to aid me. Emacs 
