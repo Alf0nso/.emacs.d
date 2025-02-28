@@ -869,6 +869,17 @@ doing presentations with org and reveal.js
        (setq lsp-ui-sideline-delay 0.05))
    #+end_src
 
+** llvm modes & related
+#+begin_src emacs-lisp
+  (load-file "~/.emacs.d/elisp/llvm-ir-mode-get.el")
+  (llvm-mode-get)
+  (when (file-directory-p "~/.emacs.d/llvm-mode/")
+    (load "~/.emacs.d/llvm-mode/emacs.el")
+    (load "~/.emacs.d/llvm-mode/llvm-mode.el")
+    (load "~/.emacs.d/llvm-mode/llvm-mir-mode.el")
+    (load "~/.emacs.d/llvm-mode/tablegen-mode.el"))
+#+end_src
+
 ** cmake
 #+begin_src emacs-lisp
   (use-package cmake-mode
