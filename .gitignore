@@ -1,19 +1,24 @@
-auto-save-list/
+# Generated files
 org-roam.db
 tramp
-straight/
-transient/
 session.*
 *.elc
-elpa/
-eln-cache/
 bookmarks
 .lsp-session-v1
 recentf
+.org-id-locations
+ielm-history.eld
+
+# Generated folders
+eshell/
+racket-mode/
+image-dired/
 request/
 persist/
-racket-mode/
 snippets/
-.org-id-locations
-eshell/
-image-dired/
+elpa/
+eln-cache/
+straight/
+transient/
+auto-save-list/
+llvm-mode/
