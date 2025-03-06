@@ -81,7 +81,7 @@ make a portable Emacs configuration. Inspired by the likes of:
   (setq byte-compile-warnings
 	'(not free-vars unresolved noruntime lexical make-local))
 
-  (setq idle-update-delay 1.0)
+  (setq which-func-update-delay 1.0)
 
   (setq process-adaptive-read-buffering nil)
   (setq read-process-output-max (* 4 1024 1024))
