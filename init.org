@@ -848,9 +848,7 @@ doing presentations with org and reveal.js
        :init
        (setq lsp-keymap-prefix "C-c l")
        :hook
-       ((c-mode . lsp)
-	(c++-mode . lsp)
-	(web-mode . lsp)
+       ((web-mode . lsp)
 	(lsp-mode . lsp-enable-which-key-integration))
        :commands lsp
        :config
