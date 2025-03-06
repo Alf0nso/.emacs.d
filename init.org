@@ -248,6 +248,13 @@ that might only be available trough straight.
     )
 #+end_src
 
+*** Reactivate necessities
+This option is bonded to the key _C-x C-u_ by default, but deactivated. I want to
+make it available since the beginning.
+#+begin_src emacs-lisp
+  (put 'upcase-region 'disabled nil)
+#+end_src
+
 ** Custom bindings
 #+begin_src emacs-lisp
   (defvar custom-bindings-map (make-keymap)
