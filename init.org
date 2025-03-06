@@ -1073,6 +1073,14 @@ Python mode for python files
     (require 'sclang))
 #+end_src
 
+** GLSL (shaders)
+
+#+begin_src emacs-lisp
+  (use-package glsl-mode
+    :ensure t
+    :mode ("\\.fs\\'" "\\.vs\\'" "\\.glsl\\'"))
+#+end_src
+
 * Activate personal bindings
 #+begin_src emacs-lisp
   (define-minor-mode custom-bindings-mode
