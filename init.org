@@ -783,6 +783,10 @@ has a couple of packages for spelling and syntax.
        :hook (org-mode . org-fragtog-mode))
    #+end_src
 
+** Size of images on org files
+#+begin_src emacs-lisp
+  (setq org-image-actual-width nil)
+#+end_src
 ** Org Bullets
 Org mode by default does not necessarily look ugly, but I do prefer
 to use other bullet icons.
