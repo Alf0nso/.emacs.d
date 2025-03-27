@@ -721,17 +721,17 @@ has a couple of packages for spelling and syntax.
     ;; Org tempo templates
     (require 'org-tempo)
     (setq org-structure-template-alist
-	  '(("el" . "src emacs-lisp")
-	    ("sh" . "src shell")
-	    ("py" . "src python :results output :exports both")
-	    ("pys" . 
-	    "src python :session :results output :exports both")
-	    ("C" . "src C")
-	    ("cl" . "src lisp")
-	    ("hs" . "src haskell :results value :exports both")
-	    ("pl" . "src prolog :results value :exports both")
-	    ("js" . "src js :results output")
-	    ))
+  	  '(("el"  . "src emacs-lisp")
+  	    ("sh"  . "src shell")
+  	    ("py"  . "src python :results output :exports both")
+  	    ("pys" . "src python :session :results output :exports both")
+  	    ("C"   . "src C :results output :exports both")
+  	    ("cl"  . "src lisp")
+  	    ("hs"  . "src haskell :results value :exports both")
+  	    ("pl"  . "src prolog :results value :exports both")
+  	    ("js"  . "src js :results output")
+  	    ("r"   . "src R :results output :exports both")
+  	    ))
 
     ;; Babel and the polyglot configuration
     (org-babel-do-load-languages
@@ -742,7 +742,10 @@ has a couple of packages for spelling and syntax.
        (C          . t)
        (haskell    . t)
        (js         . t)
-       (prolog     . t)))
+       (prolog     . t)
+       (R          . t)
+       (fortran    . t)
+       ))
     )
 #+end_src
 
