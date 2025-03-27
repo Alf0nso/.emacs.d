@@ -869,6 +869,10 @@ doing presentations with org and reveal.js
 	    org-roam-ui-open-on-start t))
 #+end_src
 
+** Org code block eval
+#+begin_src emacs-lisp
+  (setq org-confirm-babel-evaluate nil)
+#+end_src
 * Programming languages
 ** LSP Mode
    #+begin_src emacs-lisp
