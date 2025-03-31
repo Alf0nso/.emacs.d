@@ -399,6 +399,12 @@ A terminal based document reader and browser.
     :ensure t)
 #+end_src
 
+** Extras & Specific
+*** Related to work at bsc
+This are just utilities that are useful to me at work.
+#+begin_src emacs-lisp
+  (load-file "~/.emacs.d/elisp/work-lisp.el")
+#+end_src
 * Completion
 ** Vertico as completion UI
 #+begin_src emacs-lisp

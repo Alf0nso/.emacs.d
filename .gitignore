@@ -22,3 +22,6 @@ straight/
 transient/
 auto-save-list/
 llvm-mode/
+
+# Work specific
+elisp/work-lisp.el
