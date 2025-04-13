@@ -916,7 +916,12 @@ doing presentations with org and reveal.js
        (setq lsp-ui-sideline-show-code-actions t)
        (setq lsp-ui-sideline-delay 0.05))
    #+end_src
-
+** elgot
+#+begin_src emacs-lisp
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((c++-mode c-mode) "/apps/clang/latest/bin/clangd")))
+#+end_src
 ** llvm modes & related
 #+begin_src emacs-lisp
   (load-file "~/.emacs.d/elisp/llvm-ir-mode-get.el")
