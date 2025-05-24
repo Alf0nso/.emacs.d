@@ -1127,6 +1127,17 @@ Python mode for python files
     :ensure t
     :mode ("\\.fs\\'" "\\.vs\\'" "\\.glsl\\'"))
 #+end_src
+** Cobol
+#+begin_src emacs-lisp
+  (use-package cobol-mode)
+#+end_src
+** assembly
+#+begin_src emacs-lisp
+  (use-package nasm-mode
+    :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.\\(asm\\|s\\|S\\)$" . nasm-mode)))
+#+end_src
 
 * Activate personal bindings
 #+begin_src emacs-lisp
