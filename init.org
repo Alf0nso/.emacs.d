@@ -403,7 +403,8 @@ A terminal based document reader and browser.
 *** Related to work at bsc
 This are just utilities that are useful to me at work.
 #+begin_src emacs-lisp
-  (load-file "~/.emacs.d/elisp/work-lisp.el")
+  (when (file-exists-p "~/.emacs.d/elisp/work-lisp.el")
+    (load-file "~/.emacs.d/elisp/work-lisp.el"))
 #+end_src
 * Completion
 ** Vertico as completion UI
@@ -1146,7 +1147,8 @@ Python mode for python files
 #+end_src
 ** Cobol
 #+begin_src emacs-lisp
-  (use-package cobol-mode)
+  (use-package cobol-mode
+    :ensure t)
 #+end_src
 ** assembly
 #+begin_src emacs-lisp
