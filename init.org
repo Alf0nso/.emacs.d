@@ -253,16 +253,20 @@ working as well once connected to external servers.
 #+end_src
 
 *** Reactivate necessities
-This option is bonded to the key _C-x C-u_ by default, but deactivated. I want to
-make it available since the beginning.
+This option is bonded to the key _C-x C-u_ by default, but
+deactivated. I want to make it available since the beginning.
 #+begin_src emacs-lisp
   (put 'upcase-region 'disabled nil)
 #+end_src
 
-** Custom bindings
+Also for some reason we consider this option confusing when starting
+to use emacs. I guess if we think and assume the emacs way to do
+things, (aka anything new should have a new dedicated buffer), then
+one could theoretically call this option confusing. For some reason,
+In my head the idea of using the same buffer to open a new directory,
+is what makes more sense...
 #+begin_src emacs-lisp
-  (defvar custom-bindings-map (make-keymap)
-    "A keymap for custom keybindings.")
+  (put 'dired-find-alternate-file 'disabled nil)
 #+end_src
 
 * Appearance
