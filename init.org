@@ -564,19 +564,126 @@ emacs. Meaning that there is no directory tracking for example. Another
 important feature that I would expect by default would be for a shell function
 that could directly open a file in a buffer on the current emacs session.
 #+begin_src emacs-lisp
-  (defun load-remote-vterm-config ()
-    "Load the local vterm.sh configuration silently on remote vterm shells."
+  (setq vterm-printf-function
+        "vterm_printf() {
+      if [ -n \"$TMUX\" ] \\
+          && { [ \"${TERM%%-*}\" = \"tmux\" ] \\
+              || [ \"${TERM%%-*}\" = \"screen\" ]; }; then
+          printf \"\\ePtmux;\\e\\e]%s\\007\\e\\\\\" \"$1\"
+      elif [ \"${TERM%%-*}\" = \"screen\" ]; then
+          printf \"\\eP\\e]%s\\007\\e\\\\\" \"$1\"
+      else
+          printf \"\\e]%s\\e\\\\\" \"$1\"
+      fi
+  }")
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq vterm-cmd-function
+        "vterm_cmd() {
+      local vterm_elisp
+      vterm_elisp=\"\"
+      while [ $# -gt 0 ]; do
+          vterm_elisp=\"$vterm_elisp\"\"\$(printf '\"%s\" ' \"\$(printf \"%s\" \"\$1\" | sed -e 's|\\\\|\\\\\\\\|g' -e 's|\"|\\\\\"|g')\")\"
+          shift
+      done
+      vterm_printf \"51;E\$vterm_elisp\"
+  }")
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq vterm-say-function
+        "say() {
+      vterm_cmd message \"%s\" \"$*\"
+  }")
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq vterm-find-file-function
+  "find_file() {
+      local localpath tramp_prefix host
+      localpath=$(realpath \"${@:-.}\")
+      if [ -n \"$SSH_CONNECTION\" ]; then
+          if [ -n \"$ORIGINAL_HOST\" ]; then
+              host=\"$ORIGINAL_HOST\"
+          else
+              host=$(hostname -s)
+          fi
+          tramp_prefix=\"/sshx11:${USER}@${host}:\"
+          say \"${tramp_prefix}\"
+          say \"${tramp_prefix}${localpath}\"
+          vterm_cmd find-file \"${tramp_prefix}${localpath}\"
+      else
+          vterm_cmd find-file \"$localpath\"
+      fi
+  }")
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq vterm-config
+    (concat vterm-printf-function "\n\n"
+            vterm-cmd-function "\n\n"
+            vterm-say-function "\n\n"
+            vterm-find-file-function "\n"))
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; (setq vterm-ssh
+  ;;   "vterm_ssh() {
+  ;;     local target=\"$1\"
+  ;;     if [ -z \"$target\" ]; then
+  ;;         echo \"Usage: vterm_ssh <target>\"
+  ;;         return 1
+  ;;     fi
+
+  ;;     path=\"$ORIGINAL_HOST\"
+  ;;     if [[ -z \"$path\" ]]; then
+  ;;         path=$(hostname -s)
+  ;;     fi
+
+  ;;     ssh \"$target\" -t \"export ORIGINAL_HOST=$path; $shell\"
+  ;; }")
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; (defun escape-shell-string (str)
+  ;;   "Escape newlines, double quotes, and backslashes in STR for shell inclusion."
+  ;;   (replace-regexp-in-string
+  ;;    "\\\\" "\\\\\\\\"
+  ;;    (replace-regexp-in-string
+  ;;     "\n" "\\\\n"
+  ;;     (replace-regexp-in-string "\"" "\\\\\"" str))))
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; (setq vterm-ssh
+  ;;       (replace-regexp-in-string "\\$shell"
+  ;;                                 (escape-shell-string vterm-config)
+  ;;                                 vterm-ssh))
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; (setq vterm-config
+  ;;       (concat vterm-config vterm-ssh))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun load-remote-vterm-config (&optional path)
+    "Load the vterm configuration silently on remote vterm shells.
+  If PATH is provided and non-empty, export ORIGINAL_HOST with that value."
     (when (and (derived-mode-p 'vterm-mode)
                (file-remote-p default-directory))
+      ;; Disable echo for silent injection.
       (vterm-send-string "stty -echo && clear")
       (vterm-send-return)
-      (let ((config (with-temp-buffer
-                      (insert-file-contents "~/.emacs.d/shell/vterm.sh")
-                      (buffer-string))))
+       (let ((config vterm-config))
+        (when (and path (not (string= path "")))
+          (setq config (concat "export ORIGINAL_HOST=\"" path "\"\n" config)))
         (vterm-send-string config)
         (vterm-send-return))
       (vterm-send-string "stty echo && clear")
-      (vterm-send-return)))
+      (vterm-send-return)
+      ))
   (add-hook 'vterm-mode-hook #'load-remote-vterm-config)
 #+end_src
 
