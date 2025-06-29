@@ -802,22 +802,22 @@ to use other bullet icons.
        :ensure t
        :init
        (setq org-bullets-bullet-list
-	     '("ꖜ" "•" "❉" "⨿" "ᖷ"))
+     	     '("ꖜ" "•" "❉" "⨿" "ᖷ"))
        (setq org-todo-keywords 
-	     '((sequence "☛ TODO(t)" "➤ NEXT(n)" "⚗ MEETING(m)"
-			 "|" "✔ DONE(d)")
-	       (sequence "∞ WAITING(w)" "|"  "✘ CANCELED(c)")
-	       (sequence "∞ READING(r)"
-			 "∞ VIEWING(v)"
-			 "𝅘𝅥𝅮 LISTENING(l)"
-			 "░ WATCHLIST(a)"
-			 "|"  "◤ FINISHED(f)")))
+     	     '((sequence "☛ TODO(t)" "➤ NEXT(n)" "⚗ MEETING(m)"
+     			 "|" "✔ DONE(d)" "⮼ BACKLOG(b)")
+     	       (sequence "∞ WAITING(w)" "|"  "✘ CANCELED(c)")
+     	       (sequence "∞ READING(r)"
+     			 "∞ VIEWING(v)"
+     			 "𝅘𝅥𝅮 LISTENING(l)"
+     			 "░ WATCHLIST(a)"
+     			 "|"  "◤ FINISHED(f)")))
        (setq org-todo-keyword-faces
-	     '(("✔ DONE" . (:foreground "gray"))))
+     	     '(("✔ DONE" . (:foreground "gray"))))
 
        :config
        (add-hook 'org-mode-hook
-		 (lambda () (org-bullets-mode 1)))
+     		 (lambda () (org-bullets-mode 1)))
        (setq org-ellipsis "▼"))
    #+end_src
 
