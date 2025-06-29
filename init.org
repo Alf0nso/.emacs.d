@@ -61,7 +61,7 @@ make a portable Emacs configuration. Inspired by the likes of:
 
 ** Custom binding
 #+begin_src emacs-lisp
-  (defvar personal-keybindings '())
+  (defvar custom-bindings-map '())
 #+end_src
 
 * Startup
