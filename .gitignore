@@ -23,6 +23,7 @@ straight/
 transient/
 auto-save-list/
 llvm-mode/
+games/
 
 # Work specific
 elisp/work-lisp.el
