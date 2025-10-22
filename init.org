@@ -900,6 +900,7 @@ has a couple of packages for spelling and syntax.
   	    ("py"  . "src python :results output :exports both")
   	    ("pys" . "src python :session :results output :exports both")
   	    ("C"   . "src C :results output :exports both")
+  	    ("ft"  . "src fortran")
   	    ("cl"  . "src lisp")
   	    ("hs"  . "src haskell :results value :exports both")
   	    ("pl"  . "src prolog :results value :exports both")
