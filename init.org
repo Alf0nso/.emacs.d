@@ -450,10 +450,19 @@ This are just utilities that are useful to me at work.
        (corfu-auto-prefix 2)
        ;; Short delay
        (corfu-popupinfo-delay 0.5)
-	;; Preselect the prompt
+       ;; Preselect the prompt
        (corfu-preselect 'prompt)
+       ;; Modes to exclude
+       (global-corfu-modes '((not gud-mode gdb-mode comint-mode) t))
        :init
        (global-corfu-mode))
+
+     ;; Do not show a "no match" message when there is no
+     ;; possible match. Simply stop showing.
+     ;; Adding this because a lot of time the "no match"
+     ;; message does not dissapear by itself, and I have to
+     ;; press C-g to remove it.
+     (setq corfu-quit-no-match t)
 
      (use-package emacs
        :init
