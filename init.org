@@ -842,7 +842,7 @@ has a couple of packages for spelling and syntax.
     :config
     ;; Start up any org file with pretty latex images
     (setq org-startup-with-latex-preview t)
-    (plist-put org-format-latex-options :scale 1.5)
+    (plist-put org-format-latex-options :scale 1.8)
 
     ;; All images showing
     (setq org-startup-with-inline-images t)
