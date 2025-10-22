@@ -769,8 +769,10 @@ bibliography data base.
 	  (directory-files "~/Org/bib" t "\\.bib$"))
 #+end_src
 
-It is helpful to set this variable to nil, otherwise emacs will attempt to use an external program called *xpdf* to open the file associated with your paper. If you set it to nil it will open all files with the
-default emacs viewer.
+It is helpful to set this variable to nil, otherwise emacs will
+attempt to use an external program called *xpdf* to open the file
+associated with your paper. If you set it to nil it will open all
+files with the default emacs viewer.
 #+begin_src emacs-lisp
   (setq ebib-file-associations nil))
 #+end_src
@@ -946,10 +948,10 @@ some focus while working.
      				    libnotify nil)))))
    #+end_src
 
-   I was not able to personalise pomodoro urgency label, and neither the app
-   and icon information. For now this is small hack makes notifications appear
-   even when I am using my emacs on full-screen and it also shows the icon and
-   application name correctly.
+I was not able to personalise pomodoro urgency label, and neither the app
+and icon information. For now this is small hack makes notifications appear
+even when I am using my emacs on full-screen and it also shows the icon and
+application name correctly.
    #+begin_src emacs-lisp
      (with-eval-after-load 'org-pomodoro
        (defun gmp-pomodoro-notification (title message &optional sound)
