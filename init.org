@@ -378,6 +378,51 @@ In case you do not know the reason for such an initial
     (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))))
 #+end_src
 
+** GDB
+Changing the colors of the gdb cursor/mark/line...
+#+begin_src emacs-lisp
+  (require 'nadvice)
+
+  (defvar gud-overlay
+    (let ((ov (make-overlay (point-min) (point-min))))
+      (overlay-put ov 'face
+                   '(:background "#FFB6C1" :foreground "black" :weight bold))
+      ov)
+    "Overlay used to highlight the current line in GUD buffers.")
+
+  (defun my-gud-highlight (true-file line)
+    "Highlight the current execution line and recenter the window."
+    (let ((ov gud-overlay)
+          (bf (gud-find-file true-file)))
+      (with-current-buffer bf
+        (goto-char (point-min))
+        (forward-line (1- line))
+        (move-overlay ov (line-beginning-position)
+                      (line-end-position)
+                      (current-buffer))
+        (when-let ((win (get-buffer-window bf)))
+          (with-selected-window win
+            (recenter))))))
+
+  (defun my-gud-clear-overlay ()
+    "Remove the GUD overlay when GDB exits or is killed."
+    (when (overlayp gud-overlay)
+      (delete-overlay gud-overlay)))
+
+  (advice-add 'gud-display-line :after #'my-gud-highlight)
+
+  ;; Clean up the overlay when GDB finishes or buffer is killed
+  (add-hook 'gud-mode-hook
+            (lambda ()
+              (add-hook 'kill-buffer-hook #'my-gud-clear-overlay nil t)
+              (when (process-live-p (get-buffer-process (current-buffer)))
+                (set-process-sentinel
+                 (get-buffer-process (current-buffer))
+                 (lambda (proc _event)
+                   (unless (process-live-p proc)
+                     (my-gud-clear-overlay)))))))
+#+end_src
+
 * Navigation
 ** Dired
 #+BEGIN_SRC emacs-lisp
