@@ -9,6 +9,7 @@ recentf
 .org-id-locations
 ielm-history.eld
 projects
+.saves/
 
 # Generated folders
 eshell/
