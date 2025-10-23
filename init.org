@@ -682,46 +682,6 @@ that could directly open a file in a buffer on the current emacs session.
 #+end_src
 
 #+begin_src emacs-lisp
-  ;; (setq vterm-ssh
-  ;;   "vterm_ssh() {
-  ;;     local target=\"$1\"
-  ;;     if [ -z \"$target\" ]; then
-  ;;         echo \"Usage: vterm_ssh <target>\"
-  ;;         return 1
-  ;;     fi
-
-  ;;     path=\"$ORIGINAL_HOST\"
-  ;;     if [[ -z \"$path\" ]]; then
-  ;;         path=$(hostname -s)
-  ;;     fi
-
-  ;;     ssh \"$target\" -t \"export ORIGINAL_HOST=$path; $shell\"
-  ;; }")
-#+end_src
-
-#+begin_src emacs-lisp
-  ;; (defun escape-shell-string (str)
-  ;;   "Escape newlines, double quotes, and backslashes in STR for shell inclusion."
-  ;;   (replace-regexp-in-string
-  ;;    "\\\\" "\\\\\\\\"
-  ;;    (replace-regexp-in-string
-  ;;     "\n" "\\\\n"
-  ;;     (replace-regexp-in-string "\"" "\\\\\"" str))))
-#+end_src
-
-#+begin_src emacs-lisp
-  ;; (setq vterm-ssh
-  ;;       (replace-regexp-in-string "\\$shell"
-  ;;                                 (escape-shell-string vterm-config)
-  ;;                                 vterm-ssh))
-#+end_src
-
-#+begin_src emacs-lisp
-  ;; (setq vterm-config
-  ;;       (concat vterm-config vterm-ssh))
-#+end_src
-
-#+begin_src emacs-lisp
   (defun load-remote-vterm-config (&optional path)
     "Load the vterm configuration silently on remote vterm shells.
   If PATH is provided and non-empty, export ORIGINAL_HOST with that value."
