@@ -736,6 +736,11 @@ that could directly open a file in a buffer on the current emacs session.
   (add-hook 'vterm-mode-hook #'load-remote-vterm-config)
 #+end_src
 
+#+begin_src emacs-lisp
+  (add-to-list 'vterm-eval-cmds
+               '("rename-buffer" rename-buffer))
+#+end_src
+
 *** eshell
 Eshell is a pretty nice terminal. But it needs some tweaks to make it a little bit more comfortable.
    #+begin_src emacs-lisp
