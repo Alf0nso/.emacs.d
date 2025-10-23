@@ -529,7 +529,7 @@ This are just utilities that are useful to me at work.
        ;; they are not used via M-x. This
        ;; setting is useful beyond Corfu.
        (setq read-extended-command-predicate
-	     #'command-completion-default-include-p))
+     	     #'command-completion-default-include-p))
    #+end_src
 
 ** Which key to know what to press
