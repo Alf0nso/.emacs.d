@@ -608,11 +608,46 @@ other options is the speed it works really well with minimal configuration.
     :ensure t
     :config
     (setopt vterm-tramp-shells '(("ssh"    "/bin/bash")
-				 ("sshx11" "/bin/bash")
-				 ("docker" "/bin/sh")))
+  				 ("sshx11" "/bin/bash")
+  				 ("docker" "/bin/sh")))
     )
 #+end_src
 
+**** SDF vterm patch
+For some reason it was quite difficult to open vterm trough a
+tramp/dired connection to the sdf server... This for sure due to my
+lack of knowledge... This patch allows vterm to "just work" on the sdf server.
+#+begin_src emacs-lisp
+  (defun my-vterm--get-shell-override (orig-fun &rest args)
+    "Override shell path for sdf.org."
+    (if (and (ignore-errors (file-remote-p default-directory))
+             (string-match-p "sdf\\.org" default-directory))
+        "/usr/pkg/bin/bash"
+      (apply orig-fun args)))
+
+  (advice-add 'vterm--get-shell :around #'my-vterm--get-shell-override)
+
+  ;; Detect BSD systems via TRAMP and set system-type to avoid iutf8 flag
+  (defun my-vterm-bsd-compatibility (orig-fun &rest args)
+    "Detect BSD systems via TRAMP and pretend
+  we're on berkeley-unix to avoid stty -iutf8."
+    (let ((system-type (if (and (featurep 'tramp)
+                                (tramp-tramp-file-p default-directory))
+                           (let* ((vec
+  				 (tramp-dissect-file-name default-directory))
+                                  (uname
+  				 (tramp-get-connection-property
+  				  vec "uname" "")))
+                             (if (string-match-p "BSD" uname)
+                                 'berkeley-unix
+                               system-type))
+                         system-type)))
+      (apply orig-fun args)))
+
+  (advice-add 'vterm :around #'my-vterm-bsd-compatibility)
+#+end_src
+
+**** Vterm and emacs interoperability 
 The only problem with vterm is that it does not operate so well by default with
 emacs. Meaning that there is no directory tracking for example. Another
 important feature that I would expect by default would be for a shell function
