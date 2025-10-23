@@ -544,8 +544,10 @@ something!
 ** Marginalia Annotations
 #+begin_src emacs-lisp
   (use-package marginalia
-    :init 
-    (marginalia-mode 1))
+    :bind (:map minibuffer-local-map
+                ("M-A" . marginalia-cycle))
+    :init
+    (marginalia-mode))
 #+end_src
 
 ** Better Help with Helpful
