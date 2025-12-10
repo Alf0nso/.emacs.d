@@ -656,7 +656,7 @@ important feature that I would expect by default would be for a shell function
 that could directly open a file in a buffer on the current emacs session.
 #+begin_src emacs-lisp
   (setq vterm-printf-function
-        "vterm_printf() {
+        " vterm_printf() {
       if [ -n \"$TMUX\" ] \\
           && { [ \"${TERM%%-*}\" = \"tmux\" ] \\
               || [ \"${TERM%%-*}\" = \"screen\" ]; }; then
@@ -671,7 +671,7 @@ that could directly open a file in a buffer on the current emacs session.
 
 #+begin_src emacs-lisp
   (setq vterm-cmd-function
-        "vterm_cmd() {
+        " vterm_cmd() {
       local vterm_elisp
       vterm_elisp=\"\"
       while [ $# -gt 0 ]; do
@@ -684,14 +684,14 @@ that could directly open a file in a buffer on the current emacs session.
 
 #+begin_src emacs-lisp
   (setq vterm-say-function
-        "say() {
+        " say() {
       vterm_cmd message \"%s\" \"$*\"
   }")
 #+end_src
 
 #+begin_src emacs-lisp
   (setq vterm-find-file-function
-  "find_file() {
+  " find_file() {
       local localpath tramp_prefix host
       localpath=$(realpath \"${@:-.}\")
       if [ -n \"$SSH_CONNECTION\" ]; then
@@ -725,14 +725,14 @@ that could directly open a file in a buffer on the current emacs session.
     (when (and (derived-mode-p 'vterm-mode)
                (file-remote-p default-directory))
       ;; Disable echo for silent injection.
-      (vterm-send-string "stty -echo && clear")
+      (vterm-send-string " stty -echo && clear")
       (vterm-send-return)
        (let ((config vterm-config))
         (when (and path (not (string= path "")))
           (setq config (concat "export ORIGINAL_HOST=\"" path "\"\n" config)))
         (vterm-send-string config)
         (vterm-send-return))
-      (vterm-send-string "stty echo && clear")
+      (vterm-send-string " stty echo && clear")
       (vterm-send-return)
       ))
   (add-hook 'vterm-mode-hook #'load-remote-vterm-config)
