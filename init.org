@@ -789,6 +789,19 @@ Eshell is a pretty nice terminal. But it needs some tweaks to make it a little b
     :bind (("C-c m" . magit-status)))
 #+end_src
 
+#+begin_src emacs-lisp
+  ;; This function is from Manuel Uberti
+  ;; https://manueluberti.eu/posts/2018-02-17-magit-bury-buffer/
+  (defun mu-magit-kill-buffers ()
+    "Restore window configuration and kill all Magit buffers."
+    (interactive)
+    (let ((buffers (magit-mode-get-buffers)))
+      (magit-restore-window-configuration)
+      (mapc #'kill-buffer buffers)))
+
+  (bind-key "q" #'mu-magit-kill-buffers magit-status-mode-map)
+#+end_src
+
 ** Markdown mode
 #+begin_src emacs-lisp
   (use-package markdown-mode
