@@ -92,8 +92,6 @@ make a portable Emacs configuration. Inspired by the likes of:
 ** Packages
 *** Package use package
 #+begin_src emacs-lisp
-  (require 'package)
-
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package)
@@ -123,29 +121,6 @@ make a portable Emacs configuration. Inspired by the likes of:
 	  ("MELPA Stable" . 5)
 	  ("nongnu"       . 0)))
   (package-initialize)
-#+end_src
-
-*** Straight
-Straight is supposed to be a replacement for package. Since I am not 
-very inclined on changing drastically to another package manager in 
-emacs I will just have it here for testing and because of some packages 
-that might only be available trough straight.
-#+begin_src emacs-lisp
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-	 (expand-file-name
-	  "straight/repos/straight.el/bootstrap.el"
-	  (or (bound-and-true-p straight-base-dir)
-	      user-emacs-directory)))
-	(bootstrap-version 7))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-	  (url-retrieve-synchronously
-	   "https://radian-software.github.io/straight.el/install.el"
-	   'silent 'inhibit-cookies)
-	(goto-char (point-max))
-	(eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
 #+end_src
 
 ** Defaults
