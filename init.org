@@ -1070,22 +1070,23 @@ doing presentations with org and reveal.js
 * Programming languages
 ** LSP Mode
    #+begin_src emacs-lisp
-     (use-package lsp-mode
-       :ensure t
-       :init
-       (setq lsp-keymap-prefix "C-c l")
-       :hook
-       ((web-mode . lsp)
-	(lsp-mode . lsp-enable-which-key-integration))
-       :commands lsp
-       :config
-       (lsp-register-client
-	(make-lsp-client
-	 :new-connection
-	 (lsp-tramp-connection "clangd")
-	 :major-modes '(c-mode c++-mode)
-	 :remote? t
-	 :server-id 'clangd-remote)))
+       (use-package lsp-mode
+         :ensure t
+         :init
+         (setq lsp-keymap-prefix "C-c l")
+         :hook
+         ((web-mode . lsp)
+          (lsp-mode . lsp-enable-which-key-integration)
+          (lean4-mode . lsp))
+         :commands lsp
+         :config
+         (lsp-register-client
+     (make-lsp-client
+      :new-connection
+      (lsp-tramp-connection "clangd")
+      :major-modes '(c-mode c++-mode)
+      :remote? t
+      :server-id 'clangd-remote)))
    #+end_src
 
 ** Lsp UI
