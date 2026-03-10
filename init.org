@@ -844,6 +844,11 @@ diff like vimdiff does.
     :ensure t)
 #+end_src
 
+** Remember mode
+#+begin_src emacs-lisp
+  (setq remember-data-file "~/Org/Notes/notes")
+#+end_src
+
 * Spelling
 I am horrible at natural languages, and since I have to use 
 them daily to communicate, I desperately require tools to aid me. Emacs 
