@@ -916,6 +916,8 @@ has a couple of packages for spelling and syntax.
        (prolog     . t)
        (R          . t)
        (fortran    . t)
+       (dot        . t)
+       (sparql     . t)
        ))
     )
 #+end_src
