@@ -430,6 +430,23 @@ This are just utilities that are useful to me at work.
   (when (file-exists-p "~/.emacs.d/elisp/work-lisp.el")
     (load-file "~/.emacs.d/elisp/work-lisp.el"))
 #+end_src
+** Moving trough paragraphs
+For some reason moving forward and backward on paragraphs is bound to
+*C-<down>*. Since I'm not a big fan of arrows...
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-}") 'forward-paragraph)
+  (global-set-key (kbd "C-{") 'backward-paragraph)
+#+end_src
+** Moving trough windows
+#+begin_src emacs-lisp
+  (defun prev-window ()
+    (interactive)
+    (other-window -1))
+
+  (global-set-key (kbd "C-ñ") #'other-window)
+  (global-set-key (kbd "C-ç") #'prev-window)
+#+end_src
+
 * Completion
 ** Vertico as completion UI
 #+begin_src emacs-lisp
