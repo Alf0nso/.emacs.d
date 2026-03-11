@@ -1126,13 +1126,27 @@ doing presentations with org and reveal.js
 ** Lean4
 #+begin_src emacs-lisp
   (use-package lean4-mode
-    :ensure lean4-mode
-    :straight (lean4-mode
-	       :type git
-	       :host github
-	       :repo "leanprover/lean4-mode"
-	       :files ("*.el" "data"))
-    :commands (lean4-mode))
+    :commands lean4-mode
+    :vc (:url "https://github.com/leanprover-community/lean4-mode.git"
+         :rev :last-release
+         ;; Or, if you prefer the bleeding edge version of Lean4-Mode:
+         ;; :rev :newest
+         ))
+
+  (setq lsp-inlay-hint-enable nil)
+#+end_src
+
+** Rocq
+#+begin_src emacs-lisp
+  (use-package proof-general
+    :ensure t
+    :config
+    (setq coq-prog-name "coqtop")
+    (setq proof-prog-name "coqtop"))
+
+  (with-eval-after-load 'coq
+    (setq coq-prog-name "coqtop")
+    (setq proof-prog-name "coqtop"))
 #+end_src
 
 ** Rust
