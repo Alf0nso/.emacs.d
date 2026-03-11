@@ -1352,6 +1352,59 @@ Python mode for python files
     :config
     (add-to-list 'auto-mode-alist '("\\.\\(asm\\|s\\|S\\)$" . nasm-mode)))
 #+end_src
+** Emacs Lisp
+#+begin_src emacs-lisp
+  (defun eval-and-insert-arrow ()
+    "Evaluate the preceding sexp and
+  insert its result prefixed with ⇒."
+    (interactive)
+    (let ((result (eval (elisp--preceding-sexp))))
+      (end-of-line)
+      (insert (format "\n;  ⇒ %S" result))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun eval-infront ()
+    "Evaluate the preceding sexp and
+  insert its result prefixed with ⇒."
+    (interactive)
+    (let ((result (eval (elisp--preceding-sexp))))
+      (end-of-line)
+      (insert (format ";  ⇒ %S" result))))
+
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package cl-lib
+    :ensure t)
+#+end_src
+** Agda
+#+begin_src emacs-lisp
+  ;; (load-file (let ((coding-system-for-read 'utf-8))
+  ;;                 (shell-command-to-string "agda --emacs-mode locate")))
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; (setq auto-mode-alist
+  ;;       (append
+  ;;        '(("\\.agda\\'" . agda2-mode)
+  ;; 	 ("\\.lagda.md\\'" . agda2-mode))
+  ;;        auto-mode-alist))
+#+end_src
+** Shell
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :hook (sh-mode . flycheck-mode)
+    :config
+    (setq-default flycheck-disabled-checkers '(sh-posix-dash))
+    (setq flycheck-shellcheck-follow-sources nil))
+#+end_src
+** SPARQL
+#+begin_src emacs-lisp
+  (use-package sparql-mode
+    :ensure t)
+#+end_src
 
 * Activate personal bindings
 #+begin_src emacs-lisp
