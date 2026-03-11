@@ -350,7 +350,9 @@ In case you do not know the reason for such an initial
     (setq dashboard-startup-banner "~/.emacs.d/grasshopper.png")
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
-    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))))
+    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+    (setq dashboard-items '((agenda    . 8)
+  			  (projects  . 5))))
 #+end_src
 
 ** GDB
