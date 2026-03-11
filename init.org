@@ -1262,12 +1262,26 @@ Python mode for python files
 
    #+begin_src emacs-lisp
      (use-package pyvenv
-       :ensure t)
+       :ensure t
+       :init
+       (setenv "WORKON_HOME" (expand-file-name "~/py_home")))
    #+end_src
 
    #+begin_src emacs-lisp
      (use-package ein
-       :ensure t)
+       :ensure t
+       :defer t
+       :init
+       (setq ein:jupyter-server-args
+             '("--no-browser"
+               "--ServerApp.token="
+               "--ServerApp.disable_check_xsrf=True")))
+
+     (with-eval-after-load 'comp
+       (add-to-list 'native-comp-jit-compilation-deny-list "ein"))
+
+     (setq ein:output-area-inlined-images t)
+     (setq ein:output-area-inlined-image-properties '())
    #+end_src
 
 ** R
