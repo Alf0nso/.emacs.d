@@ -1379,7 +1379,7 @@ Python mode for python files
     (interactive)
     (let ((result (eval (elisp--preceding-sexp))))
       (end-of-line)
-      (insert (format "\n;  ⇒ %S" result))))
+      (insert (format "\n;;  ⇒ %S" result))))
 #+end_src
 
 #+begin_src emacs-lisp
