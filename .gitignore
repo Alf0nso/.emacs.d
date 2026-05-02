@@ -9,8 +9,6 @@ recentf
 .org-id-locations
 ielm-history.eld
 projects
-.saves/
-trash/
 
 # Generated folders
 eshell/
@@ -26,6 +24,9 @@ transient/
 auto-save-list/
 llvm-mode/
 games/
+url/
+trash/
+.saves/
 
 # Work specific
 elisp/work-lisp.el
